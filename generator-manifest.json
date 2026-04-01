@@ -1,0 +1,18 @@
+{
+  "branch": "main",
+  "depends_recipe": "png-util",
+  "description_control": "",
+  "description_recipe": "Web/DPF/Samsung LCD Ansteuerung",
+  "history_source_dir": "LCD4linux",
+  "internal_package_name": "enigma2-plugin-extensions-lcd4linux",
+  "module_dir_name": "LCD4linux",
+  "output_subdir": "LCD4linux",
+  "package_name": "enigma2-plugin-extensions-lcd4linux",
+  "plugin_src_rel": "LCD4linux",
+  "python_package": "LCD4linux",
+  "rdepends_recipe": "enigma2-plugin-extensions-lcd4linux-src dpflib python3-icalendar python3-pyusb python3-codecs python3-datetime python3-pillow python3-image python3-shell python3-ctypes libusb-0.1-4 python3-mutagen python3-email python3-simplejson python3-soco",
+  "replaces": "",
+  "repo_name": "LCD4linux",
+  "rrecommends": "",
+  "rreplaces": ""
+}
