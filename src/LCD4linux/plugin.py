@@ -179,7 +179,7 @@ elif ARCH in ("aarch64"):
 
 parts = __version__.split(".")
 lenght = len(parts)
-Version = "".join([f"{('V', '.', '-r')[idx]}{parts[idx]}" if idx < lenght else "" for idx in range(3)])  # fill up with '' if something is missing	
+Version = "".join([f"{('V', '.', '-r')[idx]}{parts[idx]}" if idx < lenght else "" for idx in range(3)])  # fill up with '' if something is missing
 L4LElist = L4Lelement()
 L4LdoThread = True
 LCD4enigma2config = resolveFilename(SCOPE_CONFIG)  # /etc/enigma2/
