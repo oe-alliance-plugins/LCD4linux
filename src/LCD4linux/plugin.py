@@ -13503,7 +13503,7 @@ def LCD4linuxPIC(self, session):
 				if self.l4l_info.get("Fav", "") != "":
 					Info += self.l4l_info.get("Fav", "") + " - "
 			if isMediaPlayer == "record":
-				event_begin, event_end, duration, event_name = self.Levent_begin0, self.Levent_end0, self.Lduration0, self.Levent_name0
+				event_begin, duration, event_name = self.Levent_begin0, self.Lduration0, self.Levent_name0
 				Info += "%s " % self.Lcommand
 				if event_begin != 0:
 					if isMediaPlayer == "record":
