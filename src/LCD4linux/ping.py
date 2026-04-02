@@ -208,7 +208,7 @@
 	===========================================================================
 """
 
-#=============================================================================#
+# =============================================================================#
 import argparse
 import os
 import sys
@@ -231,7 +231,7 @@ NUM_PACKETS = 3
 PACKET_SIZE = 64
 WAIT_TIMEOUT = 3000
 
-#=============================================================================#
+# =============================================================================#
 # ICMP parameters
 
 ICMP_ECHOREPLY = 0  # Echo reply (per RFC792)
@@ -254,7 +254,7 @@ class MyStats:
 
 myStats = MyStats  # NOT Used globally anymore.
 
-#=============================================================================#
+# =============================================================================#
 
 
 def checksum(source_string):
@@ -303,7 +303,7 @@ def checksum(source_string):
 
 	return answer
 
-#=============================================================================#
+# =============================================================================#
 
 
 def do_one(myStats, destIP, hostname, timeout, mySeqNumber, packet_size, quiet=False):
@@ -350,14 +350,14 @@ def do_one(myStats, destIP, hostname, timeout, mySeqNumber, packet_size, quiet=F
 			print("Request timed out.")
 	return delay
 
-#=============================================================================#
+# =============================================================================#
 
 
 def send_one_ping(mySocket, destIP, myID, mySeqNumber, packet_size):
 	"""
 	Send one ping to the given >destIP<.
 	"""
-	#destIP  =  socket.gethostbyname(destIP)
+	# destIP  =  socket.gethostbyname(destIP)
 
 	# Header is type (8), code (8), checksum (16), id (16), sequence (16)
 	# (packet_size - 8) - Remove header size from packet size
@@ -380,7 +380,7 @@ def send_one_ping(mySocket, destIP, myID, mySeqNumber, packet_size):
 	else:
 		for i in range(startVal, startVal + (packet_size - 8)):
 			padBytes += [(i & 0xff)]  # Keep chars in the 0-255 range
-		#data = bytes(padBytes)
+		# data = bytes(padBytes)
 		data = bytearray(padBytes)
 
 	# Calculate the checksum on the data and the dummy header.
@@ -404,7 +404,7 @@ def send_one_ping(mySocket, destIP, myID, mySeqNumber, packet_size):
 
 	return sendTime
 
-#=============================================================================#
+# =============================================================================#
 
 
 def receive_one_ping(mySocket, myID, timeout):
@@ -439,14 +439,14 @@ def receive_one_ping(mySocket, myID, timeout):
 
 		if icmpPacketID == myID:  # Our packet
 			dataSize = len(recPacket) - 28
-			#print (len(recPacket.encode()))
+			# print (len(recPacket.encode()))
 			return timeReceived, (dataSize + 8), iphSrcIP, icmpSeqNumber, iphTTL
 
 		timeLeft = timeLeft - howLongInSelect
 		if timeLeft <= 0:
 			return None, 0, 0, 0, 0
 
-#=============================================================================#
+# =============================================================================#
 
 
 def dump_stats(myStats):
@@ -469,18 +469,18 @@ def dump_stats(myStats):
 
 	print("")
 
-#=============================================================================#
+# =============================================================================#
 
 
 def signal_handler(signum, frame):
 	"""
 	Handle exit via signals
 	"""
-	#dump_stats()
+	# dump_stats()
 	print("\n(Terminated with signal %d)\n" % (signum))
 	sys.exit(0)
 
-#=============================================================================#
+# =============================================================================#
 
 
 def verbose_ping(hostname, timeout=WAIT_TIMEOUT, count=NUM_PACKETS,
@@ -522,7 +522,7 @@ def verbose_ping(hostname, timeout=WAIT_TIMEOUT, count=NUM_PACKETS,
 
 	dump_stats(myStats)
 
-#=============================================================================#
+# =============================================================================#
 
 
 def quiet_ping(hostname, timeout=WAIT_TIMEOUT, count=NUM_PACKETS, packet_size=PACKET_SIZE, path_finder=False):
@@ -568,7 +568,7 @@ def quiet_ping(hostname, timeout=WAIT_TIMEOUT, count=NUM_PACKETS, packet_size=PA
 	# return tuple(max_rtt, min_rtt, avrg_rtt, percent_lost)
 	return myStats.maxTime, myStats.minTime, myStats.avrgTime, myStats.fracLoss
 
-#=============================================================================#
+# =============================================================================#
 
 
 def main():

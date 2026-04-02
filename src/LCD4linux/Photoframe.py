@@ -162,9 +162,9 @@ def frame_init(dev):
 
 def frame_switch(dev):
 	# Switch device from Mass Storage to Mini Monitor
-#	CTRL_TYPE_VENDOR = (2 << 5)
-#	CTRL_IN = 0x80
-#	CTRL_RECIPIENT_DEVICE = 0
+# CTRL_TYPE_VENDOR = (2 << 5)
+# CTRL_IN = 0x80
+# CTRL_RECIPIENT_DEVICE = 0
 	try:
 		sleep(0.5)
 		# s = "\x00" * 251

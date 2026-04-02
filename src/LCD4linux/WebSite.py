@@ -17,7 +17,7 @@ class LCD4linuxweb(resource.Resource):
 	def render(self, req):
 		req.setHeader('Content-type', 'text/html')
 		req.setHeader('charset', 'UTF-8')
-#		rendering server response
+# rendering server response
 		w = ""
 		command = req.args.get(b"width", None)
 		if command is not None:

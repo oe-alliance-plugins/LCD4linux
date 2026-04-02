@@ -375,17 +375,17 @@ class LCD4linuxConfigweb(resource.Resource):
 				if _a.find(".") > 0:
 					val = req.args.get(a, "")[0]
 					val = ensure_str(val)
-#ConfigSelection
+# ConfigSelection
 					ConfObj = eval(_a)
 					if isinstance(ConfObj, ConfigSelection):
 						ConfObj.value = val
 					else:
-#ConfigYesNo
+# ConfigYesNo
 						if isinstance(ConfObj, ConfigYesNo):
 							val = req.args.get(a, "")
 							ConfObj.value = True if len(val) == 2 else False
 						else:
-#ConfigText
+# ConfigText
 							if isinstance(ConfObj, ConfigText):
 								V = _l(val)
 								try:
@@ -394,12 +394,12 @@ class LCD4linuxConfigweb(resource.Resource):
 									L4log("WebIF Error: Parse Text")
 								ConfObj.value = V
 							else:
-#ConfigSlider
+# ConfigSlider
 								if isinstance(ConfObj, ConfigSlider):
 									if val.isdigit():
 										ConfObj.value = val
 								else:
-#ConfigClock
+# ConfigClock
 									if isinstance(ConfObj, ConfigClock):
 										t = val.split(":")
 										if len(t) == 2 and t[0].isdigit() and t[1].isdigit():
@@ -452,7 +452,7 @@ class LCD4linuxConfigweb(resource.Resource):
 			if Cfritz:
 				rmFile(PICfritz)
 			if Cwetter:
-#				resetWetter(None)  # action after changing weather parameters
+# resetWetter(None)  # action after changing weather parameters
 				pass
 			if Cpicon:
 				if len(LCD4linux.PiconCache.value) > 2:
@@ -641,7 +641,7 @@ class LCD4linuxConfigweb(resource.Resource):
 					if AktCode == 0:
 						AktCode = LL[3]
 					Curr = ConfObj.value
-#ConfigSelection
+# ConfigSelection
 					html += "<tr>\n"
 					if isinstance(ConfObj, ConfigSelection):
 						html += "<td width=\"300\">%s</td><td>\n" % _l(_(LL[1]))
@@ -655,7 +655,7 @@ class LCD4linuxConfigweb(resource.Resource):
 						html += "</select>\n"
 						html += "</td>\n"
 					else:
-#ConfigYesNo
+# ConfigYesNo
 						if isinstance(ConfObj, ConfigYesNo):
 							html += "<td width=\"300\">%s</td><td>\n" % _l(_(LL[1]))
 							Aktiv = "checked" if Curr else ""
@@ -663,13 +663,13 @@ class LCD4linuxConfigweb(resource.Resource):
 							html += "<input type=\"checkbox\" name=\"%s\" value=\"%s\" %s>" % (Conf, "checked", Aktiv)
 							html += "</td>\n"
 						else:
-#ConfigText
+# ConfigText
 							if isinstance(ConfObj, ConfigText):
 								html += "<td width=\"300\">%s</td><td>\n" % _l(_(LL[1]))
 								html += "<input type=\"password\" name=\"%s\" size=\"60\" value=\"%s\">" % (Conf, _l(Curr)) if isinstance(ConfObj, ConfigPassword) else "<input type=\"text\" name=\"%s\" size=\"60\" value=\"%s\">" % (Conf, _l(Curr))
 								html += "</td>\n"
 							else:
-#ConfigSlider
+# ConfigSlider
 								if isinstance(ConfObj, ConfigSlider):
 									Min = ConfObj.min
 									Max = ConfObj.max
@@ -677,7 +677,7 @@ class LCD4linuxConfigweb(resource.Resource):
 									html += "<input type=\"text\" name=\"%s\" size=\"5\" value=\"%s\">" % (Conf, Curr)
 									html += "</td>\n"
 								else:
-#ConfigClock
+# ConfigClock
 									if isinstance(ConfObj, ConfigClock):
 										html += "<td width=\"300\">%s</td><td>\n" % _l(_(LL[1]))
 										html += "<input type=\"text\" name=\"%s\" size=\"6\" value=\"%02d:%02d\">" % (Conf, Curr[0], Curr[1])
