@@ -34,7 +34,7 @@ class BlueSound:
 				return r
 			else:
 				return {}
-		except:
+		except Exception:
 			print("Bluesound Error")
 			from traceback import format_exc
 			print("Error: %s" % format_exc())

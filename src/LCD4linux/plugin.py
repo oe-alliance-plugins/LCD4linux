@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-#
-#
+
 #  LCD4linux - Pearl DPF LCD Display, Samsung SPF-Line, Grautec-TFT, WLAN-LCDs, internes LCD über Skin
 #
 # written by joergm6 @ IHAD
@@ -102,7 +102,7 @@ try:
 	IMAGEDISTRO = BoxInfo.getItem("distro")
 	MODEL = BoxInfo.getItem("machinebuild")
 	ARCH = BoxInfo.getItem("architecture")
-except:
+except Exception:
 	from boxbranding import getImageDistro, getBoxType, getImageArch
 	IMAGEDISTRO = getImageDistro()
 	MODEL = getBoxType()
@@ -117,7 +117,6 @@ from .myFileList import FileList as myFileList
 from .ping import quiet_ping
 from .utils import getIPTVProvider, getAudio
 from .ymc import YMC
-from .bluesound import BlueSound
 
 # DEPENDING IMPORTS & GLOBALS & INITIALIZATION
 import ssl
@@ -4286,21 +4285,21 @@ def xmlSkin():
 		xmlInsert(sli[1])
 	elif xf >= 0 and LCD4linux.xmlType01.value is False:
 		change = True
-		ok = xmlDelete(1)
+		# ok = xmlDelete(1)
 	xf = xmlFind(2)
 	if xf == -1 and LCD4linux.xmlType02.value is True:
 		change = True
 		xmlInsert(sli[2])
 	elif xf >= 0 and LCD4linux.xmlType02.value is False:
 		change = True
-		ok = xmlDelete(2)
+		# ok = xmlDelete(2)
 	xf = xmlFind(3)
 	if xf == -1 and LCD4linux.xmlType03.value is True:
 		change = True
 		xmlInsert(sli[3])
 	elif xf >= 0 and LCD4linux.xmlType03.value is False:
 		change = True
-		ok = xmlDelete(3)
+		# ok = xmlDelete(3)
 	return change
 
 
@@ -5162,11 +5161,11 @@ class L4LWorker(Thread):
 							if str(LCD4linux.MailIMAPDays.value) == "0":
 								typ, data = mailserver.search(None, 'ALL')
 							else:
-								l = getlocale()
+								ll = getlocale()
 								setlocale(LC_ALL, "C")
 								Date = (date.today() - timedelta(int(LCD4linux.MailIMAPDays.value))).strftime(_("%d-%b-%Y"))
 								typ, data = mailserver.search(None, '(SINCE {date})'.format(date=Date))
-								setlocale(LC_ALL, l)
+								setlocale(LC_ALL, ll)
 							ids = data[0]
 							if ids is not None:
 								id_list = ids.split()
@@ -5203,7 +5202,6 @@ class L4LWorker(Thread):
 							del mailserver
 					except Exception:
 						L4log("Mail-Error Close")
-
 				if len(PopMail[i]) > 0:
 					PopMail[i] = list(reversed(PopMail[i]))
 					L4logE("currend ID", PopMailUid[i][0])
@@ -8214,7 +8212,7 @@ class LCDdisplayConfig(ConfigListScreen, Screen):
 		getSamsungDevice()
 		TFTCheck(True)
 		rmFile(CrashFile)
-		PICwetter = [None, None]
+		# PICwetter = [None, None]
 		rmFile("%stft.bmp" % TMPL)
 		rmFiles(PIC + "*.*")
 		if Briefkasten.qsize() <= 3:
@@ -11878,12 +11876,12 @@ def LCD4linuxPIC(self, session):
 							L4logE("Cover Check %s" % pcheck)
 							x2 = int(xx / 2)
 							y2 = int(yy / 2)
-							l, o = 0, 0
+							ll, o = 0, 0
 							r = xx - 1
 							u = yy - 1
-							while pix[l, y2] == pcheck and l < x2:
-								l += 1
-							l += 1
+							while pix[ll, y2] == pcheck and ll < x2:
+								ll += 1
+							ll += 1
 							while pix[r, y2] == pcheck and r > x2:
 								r -= 1
 							r -= 1
@@ -11893,9 +11891,9 @@ def LCD4linuxPIC(self, session):
 							while pix[x2, u] == pcheck and u > y2:
 								u -= 1
 							u -= 1
-							if l > 1 or o > 1:
-								pil_image = pil_image.crop((l, o, r, u))
-							L4logE("Cover Trim (%s, %s, %s, %s)" % (l, o, r, u))
+							if ll > 1 or o > 1:
+								pil_image = pil_image.crop((ll, o, r, u))
+							L4logE("Cover Trim (%s, %s, %s, %s)" % (ll, o, r, u))
 					xx, yy = pil_image.size
 					L4log("CoverSize (%s, %s)" % pil_image.size)
 					y = int(float(x) / xx * yy)
@@ -12085,12 +12083,12 @@ def LCD4linuxPIC(self, session):
 							L4logE("Grabpixel", pix[0, 0])
 							x2 = int(xx / 2)
 							y2 = int(yy / 2)
-							l, o = 0, 0
+							ll, o = 0, 0
 							r = xx - 1
 							u = yy - 1
-							while pix[l, y2] == pcheck and l < x2:
-								l += 1
-							l += 1
+							while pix[ll, y2] == pcheck and ll < x2:
+								ll += 1
+							ll += 1
 							while pix[r, y2] == pcheck and r > x2:
 								r -= 1
 							r -= 1
@@ -12102,7 +12100,7 @@ def LCD4linuxPIC(self, session):
 							u -= 1
 							if str(LCD4linux.OSDTransparenz.value) == "2":
 								self.draw[draw].rectangle((0, 0, MAX_W, MAX_H), fill="black")
-							pix_image = pil_image.crop((l, o, r, u))
+							pix_image = pil_image.crop((ll, o, r, u))
 							xx, yy = pix_image.size
 							self.im[im].paste(pix_image, ((MAX_W - xx) // 2, (MAX_H - yy) // 2))
 			except Exception:
@@ -12255,11 +12253,11 @@ def LCD4linuxPIC(self, session):
 					font = ImageFont.truetype(FONT, int(ConfigTextSize), encoding="unic")
 					Channel_list = wrap(self.Lchannel_name, width=int((MAX_W * 2) / int(ConfigTextSize)), break_long_words=False)
 					hadd = 0
-					l = 0
+					ll = 0
 					for Channel_line in Channel_list:
 						if PY3:
 							Channel_line = Channel_line.replace('\x87', '').replace('\x86', '')
-						if l < 3:
+						if ll < 3:
 							w, h = getFsize(Channel_line, font)
 							TextSize = ConfigTextSize
 							while w > MAX_W:
@@ -12267,7 +12265,7 @@ def LCD4linuxPIC(self, session):
 								font = ImageFont.truetype(FONT, TextSize, encoding='unic')
 								w, h = getFsize(Channel_line, font)
 							self.draw[draw].text((((MAX_W - w) / 2) + POSX, (POSY + hadd)), Channel_line, font=font, fill="white")
-							l += 1
+							ll += 1
 							hadd += h
 			else:
 				if (ret, ConfigSize) != self.PiconName[Picon2][0] or ConfigMode is True:
@@ -12477,7 +12475,7 @@ def LCD4linuxPIC(self, session):
 				except Exception:
 					L4log("Error put Progress")
 			else:  # DVB
-				event_begin, event_end, duration, event_name = self.Levent_begin0, self.Levent_end0, self.Lduration0, self.Levent_name0
+				event_begin, event_end, duration = self.Levent_begin0, self.Levent_end0, self.Lduration0
 				if event_begin != 0:
 					now = int(time())
 					event_run = now - event_begin
@@ -12824,7 +12822,7 @@ def LCD4linuxPIC(self, session):
 		MAX_W, MAX_H = self.im[im].size
 		if ConfigSplit is True:
 			MAX_W = int(MAX_W / 2)
-		event_begin, event_end, duration, event_name = self.Levent_begin0, self.Levent_end0, self.Lduration0, self.Levent_name0
+		event_begin, event_end, event_name = self.Levent_begin0, self.Levent_end0, self.Levent_name0
 		if event_begin != 0:
 			begin = strftime("%H:%M", localtime(event_begin))
 			ende = strftime("%H:%M", localtime(event_end))
@@ -12875,7 +12873,7 @@ def LCD4linuxPIC(self, session):
 						POSY += h
 					lines += 1
 		else:
-			event_begin, event_end, duration, event_name = self.Levent_begin1, self.Levent_end1, self.Lduration1, self.Levent_name1
+			event_begin, event_end, event_name = self.Levent_begin1, self.Levent_end1, self.Levent_name1
 			if event_begin != 0:
 				begin = strftime("%H:%M", localtime(event_begin))
 				ende = strftime("%H:%M", localtime(event_end))
@@ -13123,9 +13121,9 @@ def LCD4linuxPIC(self, session):
 			cl = 0
 			cm = 0
 			h = 0
-			for l in ConfigList:
-				if len(l) > 1:
-					T = (Code_utf8(l) + ":").split(":")
+			for ll in ConfigList:
+				if len(ll) > 1:
+					T = (Code_utf8(ll) + ":").split(":")
 					w, h = getFsize(T[0], font)
 					if cm < w:
 						cm = w
@@ -13134,9 +13132,9 @@ def LCD4linuxPIC(self, session):
 				cl = cm + 10 + h
 			ly = ConfigPos
 			lx = getSplit(ConfigSplit, ConfigAlign, MAX_W, cl)
-			for l in ConfigList:
-				if len(l) > 1:
-					T = (Code_utf8(l) + ":").split(":")
+			for ll in ConfigList:
+				if len(ll) > 1:
+					T = (Code_utf8(ll) + ":").split(":")
 					TT = T[1] if len(T[1]) > 0 else T[0]
 					w, h = getFsize(T[0], font)
 					c = "red"
@@ -13235,39 +13233,39 @@ def LCD4linuxPIC(self, session):
 		w, h = getFsize("MByte", font)
 		if ConfigType == "0":
 			co = 0
-			for l in ConfigList:
-				if len(l) > 0:
+			for ll in ConfigList:
+				if len(ll) > 0:
 					co += 1
 		else:
 			co = 1
 		ly = ConfigPos
 		lx = getSplit(ConfigSplit, ConfigAlign, MAX_W, (w + 20) * co)
 		Bproz = 0
-		for l in ConfigList:
-			if l not in DeviceRemove and (isdir(l) is True or l.startswith("RAM")):
-				L4logE("Device", l)
+		for ll in ConfigList:
+			if ll not in DeviceRemove and (isdir(ll) is True or ll.startswith("RAM")):
+				L4logE("Device", ll)
 				G = F = B = B1pixel = B2pixel = 0
-				if l.startswith("RAM"):
+				if ll.startswith("RAM"):
 					G, F, B = getMem()
 					Bproz = int(F * 100 / G) if F > 0 else 0
 					B1pixel = ((2 * h) * Bproz / 100)
 					Bproz = int(B * 100 / G) if B > 0 else 0
 					B2pixel = ((2 * h) * Bproz / 100)
-					if l == "RAM2":
+					if ll == "RAM2":
 						F += B
 				else:
 					try:
-						s = statvfs(l)
+						s = statvfs(ll)
 						G = s.f_bsize * s.f_blocks
 						F = s.f_bsize * s.f_bavail
 						if G == 0 and LCD4linux.DevForceRead.value is True:
 							L4logE("Device force Reading")
-							glob(normpath(l) + "/*")
-							s = statvfs(l)
+							glob(normpath(ll) + "/*")
+							s = statvfs(ll)
 							G = s.f_bsize * s.f_blocks
 							F = s.f_bsize * s.f_bavail
 					except Exception:
-						L4log("Error Device", l)
+						L4log("Error Device", ll)
 				if G > 0:
 					Fproz = int(F * 100 / G) if F > 0 else 0
 					Fpixel = ((2 * h) * Fproz / 100)
@@ -13287,8 +13285,8 @@ def LCD4linuxPIC(self, session):
 						Einh = "T"
 					ShadowText(draw, lx + 20, ly, "%.1f" % Fe, font, ConfigColor, ConfigShadow)
 					ShadowText(draw, lx + 20, ly + h, "%sB" % Einh, font, ConfigColor, ConfigShadow)
-					self.draw[draw].rectangle((lx + 8, ly, lx + 18, ly + (2 * h)), outline=LCD4linux.DevBarColor.value, fill=LCD4linux.DevFullColor.value if (Fproz < int(ConfigWarning) and not l.startswith("RAM")) else LCD4linux.DevBarColor.value)
-					if l.startswith("RAM"):
+					self.draw[draw].rectangle((lx + 8, ly, lx + 18, ly + (2 * h)), outline=LCD4linux.DevBarColor.value, fill=LCD4linux.DevFullColor.value if (Fproz < int(ConfigWarning) and not ll.startswith("RAM")) else LCD4linux.DevBarColor.value)
+					if ll.startswith("RAM"):
 						self.draw[draw].rectangle((lx + 8, ly, lx + 18, ly + B1pixel), outline=LCD4linux.DevBackColor.value, fill=LCD4linux.DevBackColor.value)
 						self.draw[draw].rectangle((lx + 8, ly + B1pixel, lx + 14, ly + B1pixel + B2pixel), outline=LCD4linux.DevBackColor.value, fill=LCD4linux.DevBackColor.value)
 					else:
@@ -13298,12 +13296,12 @@ def LCD4linuxPIC(self, session):
 					else:
 						ly += 2 * h + 3
 				else:
-					L4log("remove Device", l)
-					DeviceRemove.append(l)
+					L4log("remove Device", ll)
+					DeviceRemove.append(ll)
 			else:
-				if l not in DeviceRemove:
-					L4log("remove Device", l)
-					DeviceRemove.append(l)
+				if ll not in DeviceRemove:
+					L4log("remove Device", ll)
+					DeviceRemove.append(ll)
 
 # HDD
 	def putHdd(workaround, draw, im):
@@ -13519,7 +13517,7 @@ def LCD4linuxPIC(self, session):
 							Info += " (%d min) " % (duration / 60)
 					if Info.strip() == "":
 						Info += event_name + "\n"
-				event_begin, event_end, duration, event_name = self.Levent_begin1, self.Levent_end1, self.Lduration1, self.Levent_name1
+				event_begin, duration, event_name = self.Levent_begin1, self.Lduration1, self.Levent_name1
 				if event_begin != 0:
 					Info += strftime("%H:%M ", localtime(event_begin)) + event_name
 			else:

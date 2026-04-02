@@ -2,7 +2,7 @@
 from __future__ import print_function, absolute_import
 try:
 	import simplejson
-except Exception as e:
+except ImportError:
 	import json as simplejson
 from six.moves.urllib.request import urlopen
 

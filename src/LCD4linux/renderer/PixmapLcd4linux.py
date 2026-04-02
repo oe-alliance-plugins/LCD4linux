@@ -1,11 +1,11 @@
+from os import stat, symlink
+from os.path import isfile
 from Components.Renderer.Renderer import Renderer
 from enigma import ePixmap, eTimer
-from Tools.BoundFunction import boundFunction
-import os
 try:
 	from enigma import eMediaDatabase
 	DPKG = True
-except:
+except ImportError:
 	DPKG = False
 
 
@@ -28,14 +28,14 @@ class PixmapLcd4linux(Renderer):
 	def changed(*s):
 		sel = s[0]
 		sel.L4Ltimer.stop()
-		if os.path.isfile("/tmp/l4ldisplay.png"):
+		if isfile("/tmp/l4ldisplay.png"):
 			try:
-				mtime = os.stat("/tmp/l4ldisplay.png").st_mtime
+				mtime = stat("/tmp/l4ldisplay.png").st_mtime
 				if sel.mTime != mtime:
 					if sel.instance:
 						if sel.swap:
-							if not os.path.isfile("/tmp/l4ldisplaycp.png"):
-								os.symlink("/tmp/l4ldisplay.png", "/tmp/l4ldisplaycp.png")
+							if not isfile("/tmp/l4ldisplaycp.png"):
+								symlink("/tmp/l4ldisplay.png", "/tmp/l4ldisplaycp.png")
 							sel.instance.setPixmapFromFile("/tmp/l4ldisplaycp.png")
 						else:
 							sel.instance.setPixmapFromFile("/tmp/l4ldisplay.png")
@@ -43,6 +43,6 @@ class PixmapLcd4linux(Renderer):
 						sel.swap = not sel.swap
 					else:
 						sel.mTime = 0
-			except:
+			except Exception:
 				pass
 			sel.L4Ltimer.start(200, True)

@@ -267,7 +267,7 @@ class LCD4linuxConfigweb(resource.Resource):
 			V = _l(req.args.get(b"PopText", "")[0])
 			try:
 				V = _unescape(V)
-			except Exception as e:
+			except Exception:
 				L4log("WebIF Error: Parse Text")
 			setPopText(V)
 			L4LElement.setRefresh()
@@ -390,7 +390,7 @@ class LCD4linuxConfigweb(resource.Resource):
 								V = _l(val)
 								try:
 									V = _unescape(V)
-								except Exception as e:
+								except Exception:
 									L4log("WebIF Error: Parse Text")
 								ConfObj.value = V
 							else:

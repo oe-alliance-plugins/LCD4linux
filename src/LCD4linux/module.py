@@ -154,24 +154,22 @@ def getstatusoutput(cmd):
 
 def L4LVtest(VV):
 	L4Linfo = "/%s/lib/%s/info/enigma2-plugin-extensions-lcd4linux.control"
-	O = ""
+	OX = ""
 	OO = False
 	P = "opkg"
 	if exists(L4Linfo % ("var", "opkg")):
-		O = "var"
+		OX = "var"
 	elif exists(L4Linfo % ("var", "dpkg")):
-		O = "var"
+		OX = "var"
 		P = "dpkg"
 	elif exists("/var/lib/dpkg/status"):
 		(r1, r2) = getstatusoutput("dpkg -s enigma2-plugin-extensions-lcd4linux | grep Version")
 		if r1 == 0:
 			OO = r2.strip().split()[1].startswith(VV[1:])
-	if O != "":
+	if OX != "":
 		try:
-			f = open(L4Linfo % (O, P))
-			B = f.readline()
-			OO = f.readline().strip().split()[1].startswith(VV[1:])
-			f.close()
+			with open(L4Linfo % (OX, P)) as file:
+				OO = file.readline().strip().split()[1].startswith(VV[1:])
 		except Exception:
 			pass
 	return OO
