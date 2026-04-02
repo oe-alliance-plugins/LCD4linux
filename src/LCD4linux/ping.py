@@ -24,22 +24,22 @@
 	version 2. Provided with no warranties of any sort.
 
 	Original Version from Matthew Dixon Cowles:
-	  -> ftp://ftp.visi.com/users/mdc/ping.py
+		-> ftp://ftp.visi.com/users/mdc/ping.py
 
 	Rewrite by Jens Diemer:
-	  -> http://www.python-forum.de/post-69122.html#69122
+		-> http://www.python-forum.de/post-69122.html#69122
 
 	Rewrite by George Notaras:
-	  -> http://www.g-loaded.eu/2009/10/30/python-ping/
+		-> http://www.g-loaded.eu/2009/10/30/python-ping/
 
 	Enhancements by Martin Falatic:
-	  -> http://www.falatic.com/index.php/39/pinging-with-python
+		-> http://www.falatic.com/index.php/39/pinging-with-python
 
 	Enhancements and fixes by Georgi Kolev:
-	  -> http://github.com/jedie/python-ping/
+		-> http://github.com/jedie/python-ping/
 
 	Bug fix by Andrejs Rozitis:
-	  -> http://github.com/rozitis/python-ping/
+		-> http://github.com/rozitis/python-ping/
 
 	Revision history
 	~~~~~~~~~~~~~~~~
@@ -50,8 +50,7 @@
 	May 1, 2014
 	-----------
 	Little modifications by Mohammad Emami <emamirazavi@gmail.com>
-	- Added Python 3 support. For now this project will just support
-	  python 3.x
+	- Added Python 3 support. For now this project will just support python 3.x
 	- Tested with python 3.3
 	- version was upped to 0.6
 
@@ -62,12 +61,12 @@
 	January 26, 2012
 	----------------
 	* Fixing BUG #4 - competability with python 2.x [tested with 2.7]
-	  - Packet data building is different for 2.x and 3.x.
+		- Packet data building is different for 2.x and 3.x.
 		'cose of the string/bytes difference.
 	* Fixing BUG #10 - the multiple resolv issue.
-	  - When pinging domain names insted of hosts (for exmaple google.com)
-		you can get different IP every time you try to resolv it, we should
-		resolv the host only once and stick to that IP.
+		- When pinging domain names insted of hosts (for exmaple google.com)
+			you can get different IP every time you try to resolv it, we should
+			resolv the host only once and stick to that IP.
 	* Fixing BUGs #3 #10 - Doing hostname resolv only once.
 	* Fixing BUG #14 - Removing all 'global' stuff.
 		- You should not use globul! Its bad for you...and its not thread safe!
@@ -83,7 +82,7 @@
 	October 12, 2011
 	--------------
 	Merged updates from the main project
-	  -> https://github.com/jedie/python-ping
+		-> https://github.com/jedie/python-ping
 
 	September 12, 2011
 	--------------
@@ -109,31 +108,31 @@
 	--------------
 	changes by Samuel Stauffer:
 	- replaced time.clock with default_timer which is set to
-	  time.clock on windows and time.time on other systems.
+		time.clock on windows and time.time on other systems.
 
 	November 8, 2009
 	----------------
 	Improved compatibility with GNU/Linux systems.
 
 	Fixes by:
-	 * George Notaras -- http://www.g-loaded.eu
+	* George Notaras -- http://www.g-loaded.eu
 	Reported by:
-	 * Chris Hallman -- http://cdhallman.blogspot.com
+	* Chris Hallman -- http://cdhallman.blogspot.com
 
 	Changes in this release:
-	 - Re-use time.time() instead of time.clock(). The 2007 implementation
-	   worked only under Microsoft Windows. Failed on GNU/Linux.
-	   time.clock() behaves differently under the two OSes[1].
+	- Re-use time.time() instead of time.clock(). The 2007 implementation
+		worked only under Microsoft Windows. Failed on GNU/Linux.
+		time.clock() behaves differently under the two OSes[1].
 
 	[1] http://docs.python.org/library/time.html#time.clock
 
 	May 30, 2007
 	------------
 	little rewrite by Jens Diemer:
-	 -  change socket asterisk import to a normal import
-	 -  replace time.time() with time.clock()
-	 -  delete "return None" (or change to "return" only)
-	 -  in checksum() rename "str" to "source_string"
+	-  change socket asterisk import to a normal import
+	-  replace time.time() with time.clock()
+	-  delete "return None" (or change to "return" only)
+	-  in checksum() rename "str" to "source_string"
 
 	December 4, 2000
 	----------------
@@ -155,7 +154,7 @@
 
 	===========================================================================
 	IP header info from RFC791
-	  -> http://tools.ietf.org/html/rfc791)
+		-> http://tools.ietf.org/html/rfc791)
 
 	0                   1                   2                   3
 	0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -175,7 +174,7 @@
 
 	===========================================================================
 	ICMP Echo / Echo Reply Message header info from RFC792
-	  -> http://tools.ietf.org/html/rfc792
+		-> http://tools.ietf.org/html/rfc792
 
 		0                   1                   2                   3
 		0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -189,7 +188,7 @@
 
 	===========================================================================
 	ICMP parameter info:
-	  -> http://www.iana.org/assignments/icmp-parameters/icmp-parameters.xml
+		-> http://www.iana.org/assignments/icmp-parameters/icmp-parameters.xml
 
 	===========================================================================
 	An example of ping's typical output:
@@ -208,7 +207,6 @@
 	===========================================================================
 """
 
-# =============================================================================#
 import argparse
 import os
 import sys
@@ -267,7 +265,6 @@ def checksum(source_string):
 	countTo = (int(len(source_string) / 2)) * 2
 	sum = 0
 	count = 0
-
 	# Handle bytes in pairs (decoding as short ints)
 	loByte = 0
 	hiByte = 0
@@ -283,7 +280,6 @@ def checksum(source_string):
 		except Exception:  # For Python2
 			sum = sum + (ord(hiByte) * 256 + ord(loByte))
 		count += 2
-
 	# Handle last byte if applicable (odd-number of bytes)
 	# Endianness should be irrelevant in this case
 	if countTo < len(source_string):  # Check for odd length
@@ -292,15 +288,12 @@ def checksum(source_string):
 			sum += loByte
 		except Exception:  # For Python2
 			sum += ord(loByte)
-
 	sum &= 0xffffffff  # Truncate sum to 32 bits (a variance from ping.c, which
-					  # uses signed ints, but overflow is unlikely in ping)
-
+						# uses signed ints, but overflow is unlikely in ping)
 	sum = (sum >> 16) + (sum & 0xffff)    # Add high 16 bits to low 16 bits
 	sum += (sum >> 16)                    # Add carry from above (if any)
 	answer = ~sum & 0xffff                # Invert and truncate to 16 bits
 	answer = socket.htons(answer)
-
 	return answer
 
 # =============================================================================#
@@ -483,8 +476,7 @@ def signal_handler(signum, frame):
 # =============================================================================#
 
 
-def verbose_ping(hostname, timeout=WAIT_TIMEOUT, count=NUM_PACKETS,
-				 packet_size=PACKET_SIZE, path_finder=False):
+def verbose_ping(hostname, timeout=WAIT_TIMEOUT, count=NUM_PACKETS, packet_size=PACKET_SIZE, path_finder=False):
 	"""
 	Send >count< ping to >destIP< with the given >timeout< and display
 	the result.
@@ -577,14 +569,11 @@ def main():
 	parser.add_argument('-q', '--quiet', action='store_true',
 						help='quiet output')
 	parser.add_argument('-c', '--count', type=int, default=NUM_PACKETS,
-						help=('number of packets to be sent '
-							  '(default: %(default)s)'))
+						help=('number of packets to be sent (default: %(default)s)'))
 	parser.add_argument('-W', '--timeout', type=float, default=WAIT_TIMEOUT,
-						help=('time to wait for a response in seoncds '
-							  '(default: %(default)s)'))
+						help=('time to wait for a response in seoncds (default: %(default)s)'))
 	parser.add_argument('-s', '--packet-size', type=int, default=PACKET_SIZE,
-						help=('number of data bytes to be sent '
-							  '(default: %(default)s)'))
+						help=('number of data bytes to be sent (default: %(default)s)'))
 	parser.add_argument('destination')
 	args = parser.parse_args()
 
@@ -592,8 +581,7 @@ def main():
 	if args.quiet:
 		ping = quiet_ping
 
-	ping(args.destination, timeout=args.timeout * 1000, count=args.count,
-		 packet_size=args.packet_size)
+	ping(args.destination, timeout=args.timeout * 1000, count=args.count, packet_size=args.packet_size)
 
 
 if __name__ == '__main__':
