@@ -117,6 +117,7 @@ from .myFileList import FileList as myFileList
 from .ping import quiet_ping
 from .utils import getIPTVProvider, getAudio
 from .ymc import YMC
+from . import __version__
 
 # DEPENDING IMPORTS & GLOBALS & INITIALIZATION
 import ssl
@@ -175,7 +176,10 @@ elif ARCH in ("aarch64"):
 	get_backend(find_library=lambda x: "/lib64/libusb-1.0.so.0")
 	print("[LCD4linux] libusb found :-)", getEnigmaVersionString())
 	USBok = True
-Version = "V5.0-r36"
+
+parts = __version__.split(".")
+lenght = len(parts)
+Version = "".join([f"{('V', '.', '-r')[idx]}{parts[idx]}" if idx < lenght else "" for idx in range(3)])  # fill up with '' if something is missing	
 L4LElist = L4Lelement()
 L4LdoThread = True
 LCD4enigma2config = resolveFilename(SCOPE_CONFIG)  # /etc/enigma2/
