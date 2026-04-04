@@ -3,7 +3,7 @@ from os.path import isfile
 from Components.Renderer.Renderer import Renderer
 from enigma import ePixmap, eTimer
 try:
-	from enigma import eMediaDatabase
+	from enigma import eMediaDatabase  # noqa: F401
 	DPKG = True
 except ImportError:
 	DPKG = False
