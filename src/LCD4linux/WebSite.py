@@ -1,9 +1,20 @@
 # -*- coding: utf-8 -*-
-from __future__ import division, absolute_import
+from __future__ import division
 from os.path import isfile, getmtime
-from six import ensure_str, ensure_binary
 from twisted.web import resource
 from .plugin import getConfigMode, getTMPL, LCD4linux
+
+
+def ensure_str(s):
+	if isinstance(s, bytes):
+		return s.decode("utf-8")
+	return s
+
+
+def ensure_binary(s):
+	if isinstance(s, str):
+		return s.encode("utf-8")
+	return s
 
 
 class LCD4linuxweb(resource.Resource):

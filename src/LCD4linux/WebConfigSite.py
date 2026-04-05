@@ -1,16 +1,10 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
 from glob import glob
 from os import stat
 from os.path import isfile, join, basename
-from six import PY2, ensure_str, ensure_binary
 from time import time
 from twisted.web import resource, http
-if PY2:
-	from HTMLParser import HTMLParser
-	_unescape = HTMLParser().unescape
-else:
-	from html import unescape as _unescape
+from html import unescape as _unescape
 
 from enigma import eTimer
 from Components.config import ConfigSelection, ConfigYesNo, ConfigText, ConfigSlider, ConfigClock, ConfigPassword
@@ -41,12 +35,21 @@ StatusMode = False
 L4LElement = L4Lelement()
 
 
+def ensure_binary(s):
+	if isinstance(s, str):
+		return s.encode("utf-8")
+	return s
+
+
+def ensure_str(s):
+	if isinstance(s, bytes):
+		return s.decode("utf-8")
+	return s
+
+
 def _exec(command):
-	if PY2:
-		exec(command)
-	else:
-		variable = command.split(" ", 1)[0]
-		exec("global %s;%s" % (variable, command))
+	variable = command.split(" ", 1)[0]
+	exec("global %s;%s" % (variable, command))
 
 
 def ParseCode():
@@ -499,7 +502,7 @@ class LCD4linuxConfigweb(resource.Resource):
 		html += "<tr><td bgcolor=\"#000000\" width=\"220\">\n"
 		html += "<p align=\"center\"><img title=\"\" border=\"0\" src=\"/lcd4linux/data/WEBdreambox.png\" width=\"181\" height=\"10\">\n"
 		CCM = "#FFFFFF" if getConfigMode() is False else "#FFCC00"
-		html += "<font color=\"%s\"><b>LCD4linux Config</b></font><br />%s\n" % (CCM, (Version if L4LElement.getVersion() is True else Version + "") + " (%s: Py" + ("2" if PY2 else "3") + ")") % _l(_("Mode"))
+		html += "<font color=\"%s\"><b>LCD4linux Config</b></font><br />%s\n" % (CCM, (Version if L4LElement.getVersion() is True else Version + "") + " (%s: Py" + ("3") + ")") % _l(_("Mode"))
 		if IP is None:
 			html += "<br><span style=\"font-size:7pt;color: #FF0000\">%s!</span>" % _l(_("IP seurity not supported by Box"))
 		html += "</p></td><td bgcolor=\"#000000\">\n"
