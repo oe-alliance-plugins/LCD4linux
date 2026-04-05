@@ -85,7 +85,8 @@ def ParseCode():
 
 
 def _l(st):
-	st = ensure_str(st, "utf-8", "ignore")
+	if isinstance(st, bytes):
+		st = st.decode("utf-8", "ignore")
 	st = st.replace(" [ok]>", "").encode('ascii', 'xmlcharrefreplace')
 	return ensure_str(st)
 

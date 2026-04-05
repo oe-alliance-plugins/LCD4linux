@@ -278,7 +278,7 @@ def checksum(source_string):
 		try:  # For Python3
 			sum = sum + (hiByte * 256 + loByte)
 		except Exception:  # For Python2
-			sum = sum + (ord(hiByte) * 256 + ord(loByte))
+			sum = sum + ord(hiByte) * 256 + ord(loByte)
 		count += 2
 	# Handle last byte if applicable (odd-number of bytes)
 	# Endianness should be irrelevant in this case
@@ -392,7 +392,7 @@ def send_one_ping(mySocket, destIP, myID, mySeqNumber, packet_size):
 	try:
 		mySocket.sendto(packet, (destIP, 1))  # Port number is irrelevant for ICMP
 	except socket.error as e:
-		print("General failure (%s)" % (e.args[1]))
+		print(f"General failure ({e.args[1]})")
 		return
 
 	return sendTime
