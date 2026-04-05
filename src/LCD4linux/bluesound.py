@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from six.moves.urllib.request import urlopen
+from urllib.request import urlopen
 from xml.etree.ElementTree import fromstring
 
 

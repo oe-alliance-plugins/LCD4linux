@@ -5,7 +5,7 @@ from usb.core import find
 from usb.util import get_string
 from PIL import Image
 from struct import pack
-from six.moves import cStringIO as StringIO
+from io import StringIO
 
 
 def write_jpg2frame(dev, pic):
