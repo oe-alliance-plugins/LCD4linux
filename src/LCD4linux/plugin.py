@@ -27,7 +27,7 @@ from icalendar import vDatetime, Calendar as iCalendar
 from imaplib import IMAP4_SSL, IMAP4
 from io import BytesIO
 from json import loads
-from math import pi, floor, cos
+from math import pi, floor, cos, isclose
 from mutagen.id3 import ID3
 from mutagen.mp3 import MP3
 from mutagen.flac import FLAC
@@ -2772,9 +2772,9 @@ def getFeel(T, W):
 # Media player queries, these run in a thread (deferToThread) and only return data.
 def pingDevice(ip, timeout):
 	result = quiet_ping(ip, timeout)
-	if not result or result[2] == 0.0:
+	if not result or result[2] <= 0.0:
 		result = quiet_ping(ip, timeout)
-	return bool(result) and result[2] != 0.0, str(result)
+	return bool(result) and result[2] > 0.0, str(result)
 
 
 def querySonos(ip, pingTimeout, soco, socoIp, running):
@@ -12090,7 +12090,7 @@ def LCD4linuxPIC(self, session):
 							if isinstance(pixel, int):
 								pcheck = 255 if pixel == 255 else "x0"
 							elif isinstance(pixel, float):
-								pcheck = 255.0 if pixel == 255.0 else "x0"
+								pcheck = 255.0 if isclose(pixel, 255.0) else "x0"
 							elif isinstance(pixel, tuple):
 								if len(pixel) == 3:
 									pcheck = (255, 255, 255) if pixel == (255, 255, 255) else "x(0,0,0)"
