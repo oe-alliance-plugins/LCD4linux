@@ -16,7 +16,7 @@ class YMC:
 
 	def getPlayInfo(self):
 		try:
-			content, resp = self.urlGet(f"http://{self.IP}/YamahaExtendedControl/v1/netusb/getPlayInfo")
+			content, resp = self.urlGet(f"http://{self.IP}/YamahaExtendedControl/v1/netusb/getPlayInfo")  # NOSONAR - lokale Yamaha-API bietet kein HTTPS
 			return loads(content) if resp == 200 else {}
 
 		except Exception as e:
@@ -25,7 +25,7 @@ class YMC:
 
 	def getStatus(self):
 		try:
-			content, resp = self.urlGet(f"http://{self.IP}/YamahaExtendedControl/v1/main/getStatus")
+			content, resp = self.urlGet(f"http://{self.IP}/YamahaExtendedControl/v1/main/getStatus")  # NOSONAR - lokale Yamaha-API bietet kein HTTPS
 			return loads(content) if resp == 200 else {}
 		except Exception as e:
 			self.L4logE(f"YMC Error: {e}")

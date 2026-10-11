@@ -3,7 +3,7 @@
 #  written by joergm6 @ IHAD                                                                            #
 #                                                                                                       #
 #  This plugin is licensed under the The Non-Profit Open Software License version 3.0 (NPOSL-3.0)       #
-#  http://opensource.org/licenses/NPOSL-3.0                                                             #
+#  https://opensource.org/licenses/NPOSL-3.0                                                            #
 #                                                                                                       #
 #  This plugin is NOT free software. It is open source, you are allowed to modify it (if you keep the   #
 #  license), but it may not be commercially distributed other than under the conditions noted above.    #
@@ -1000,7 +1000,7 @@ LCD4linux.ExternalIpSplit = ConfigYesNo(default=False)
 LCD4linux.ExternalIpShadow = ConfigYesNo(default=False)
 LCD4linux.ExternalIpColor = ConfigSelection(choices=Farbe, default="white")
 LCD4linux.ExternalIpBackColor = ConfigSelection(choices=[("0", _("off"))] + Farbe, default="0")
-LCD4linux.ExternalIpUrl = ConfigText(default="http://icanhazip.com", fixed_size=False, visible_width=50)
+LCD4linux.ExternalIpUrl = ConfigText(default="https://icanhazip.com", fixed_size=False, visible_width=50)
 LCD4linux.RBox = ConfigSelection(choices=ScreenSelect, default="0")
 LCD4linux.RBoxLCD = ConfigSelection(choices=LCDSelect, default="1")
 LCD4linux.RBoxSize = ConfigSlider(default=15, increment=2, limits=(6, 100))
@@ -1275,7 +1275,7 @@ LCD4linux.Text3Color = ConfigSelection(choices=Farbe, default="white")
 LCD4linux.Text3BackColor = ConfigSelection(choices=[("0", _("off"))] + Farbe, default="0")
 LCD4linux.HTTP = ConfigSelection(choices=ScreenSelect, default="0")
 LCD4linux.HTTPLCD = ConfigSelection(choices=LCDSelect, default="1")
-LCD4linux.HTTPURL = ConfigText(default="http://", fixed_size=False, visible_width=50)
+LCD4linux.HTTPURL = ConfigText(default="https://", fixed_size=False, visible_width=50)
 LCD4linux.HTTPSize = ConfigSlider(default=20, increment=1, limits=(10, 300))
 LCD4linux.HTTPPos = ConfigSlider(default=0, increment=2, limits=(0, 1024))
 LCD4linux.HTTPAlign = ConfigSelection(choices=AlignType, default="0")
@@ -1292,7 +1292,7 @@ LCD4linux.WWW1LCD = ConfigSelection(choices=LCDSelect, default="1")
 LCD4linux.WWW1Size = ConfigSlider(default=200, increment=1, limits=(50, 1024))
 LCD4linux.WWW1Pos = ConfigSlider(default=0, increment=2, limits=(0, 1024))
 LCD4linux.WWW1Align = ConfigSelection(choices=AlignType, default="0")
-LCD4linux.WWW1url = ConfigText(default="http://", fixed_size=False, visible_width=50)
+LCD4linux.WWW1url = ConfigText(default="https://", fixed_size=False, visible_width=50)
 LCD4linux.WWW1w = ConfigSlider(default=800, increment=50, limits=(600, 2000))
 LCD4linux.WWW1h = ConfigSlider(default=600, increment=50, limits=(100, 2000))
 LCD4linux.WWW1CutX = ConfigSlider(default=0, increment=2, limits=(0, 1024))
@@ -2289,7 +2289,7 @@ LCD4linux.StandbyText3Color = ConfigSelection(choices=Farbe, default="white")
 LCD4linux.StandbyText3BackColor = ConfigSelection(choices=[("0", _("off"))] + Farbe, default="0")
 LCD4linux.StandbyHTTP = ConfigSelection(choices=ScreenSelect, default="0")
 LCD4linux.StandbyHTTPLCD = ConfigSelection(choices=LCDSelect, default="1")
-LCD4linux.StandbyHTTPURL = ConfigText(default="http://", fixed_size=False, visible_width=50)
+LCD4linux.StandbyHTTPURL = ConfigText(default="https://", fixed_size=False, visible_width=50)
 LCD4linux.StandbyHTTPSize = ConfigSlider(default=20, increment=1, limits=(10, 300))
 LCD4linux.StandbyHTTPPos = ConfigSlider(default=0, increment=2, limits=(0, 1024))
 LCD4linux.StandbyHTTPAlign = ConfigSelection(choices=AlignType, default="0")
@@ -2302,7 +2302,7 @@ LCD4linux.StandbyWWW1LCD = ConfigSelection(choices=LCDSelect, default="1")
 LCD4linux.StandbyWWW1Size = ConfigSlider(default=200, increment=1, limits=(50, 1024))
 LCD4linux.StandbyWWW1Pos = ConfigSlider(default=0, increment=2, limits=(0, 1024))
 LCD4linux.StandbyWWW1Align = ConfigSelection(choices=AlignType, default="0")
-LCD4linux.StandbyWWW1url = ConfigText(default="http://", fixed_size=False, visible_width=50)
+LCD4linux.StandbyWWW1url = ConfigText(default="https://", fixed_size=False, visible_width=50)
 LCD4linux.StandbyWWW1w = ConfigSlider(default=800, increment=50, limits=(600, 2000))
 LCD4linux.StandbyWWW1h = ConfigSlider(default=600, increment=50, limits=(100, 2000))
 LCD4linux.StandbyWWW1CutX = ConfigSlider(default=0, increment=2, limits=(0, 1024))
@@ -4241,7 +4241,7 @@ def HTMLwwwConvertapiDownloadFinished(filename, result):
 def getHTMLwwwConvertapi(fn, www, pw, ph):
 	filename = WWWpic % str(fn)
 	url = (
-		f"http://do.convertapi.com/web2image?curl={www}&PageWidth={pw}&PageHight={ph}"
+		f"https://do.convertapi.com/web2image?curl={www}&PageWidth={pw}&PageHight={ph}"
 		f"&outputformat=jpg&ApiKex={LCD4linux.WwwApiKeyConvertapi.value}"
 	)
 	L4log("downloading HTMLwww from", url)
@@ -9678,7 +9678,7 @@ class UpdateStatus(Screen):
 						if self.YMCastInfo.get("input", "") == "mc_link" and LCD4linux.YMCastServerIP.value != "":
 							def getServerCoverUrl(serverIp):  # Runs in a thread.
 								server = YMC(serverIp, L4logE)
-								url = f"http://{server.IP}{server.getPlayInfo().get('albumart_url', '')}"
+								url = f"http://{server.IP}{server.getPlayInfo().get('albumart_url', '')}"  # NOSONAR - lokale Yamaha-API bietet kein HTTPS
 								L4logE("YMC GetPic:", url)
 								return url
 
@@ -9687,7 +9687,7 @@ class UpdateStatus(Screen):
 
 							deferToThread(getServerCoverUrl, LCD4linux.YMCastServerIP.value).addCallbacks(boundFunction(self.getSonosPic, GoogleCover), getServerCoverUrlError)
 						else:
-							url = f"http://{self.YMCastSoCo.IP}{self.YMCastInfo.get('albumart_url', '')}"
+							url = f"http://{self.YMCastSoCo.IP}{self.YMCastInfo.get('albumart_url', '')}"  # NOSONAR - lokales Yamaha-Gerät bietet kein HTTPS
 							L4logE("YMC GetPic:", url)
 							self.getSonosPic(GoogleCover, url)
 				if tt == 0:
@@ -9969,9 +9969,9 @@ class UpdateStatus(Screen):
 						basicAuth = b64encode(up).decode()
 						Header = {"Authorization": f"Basic {basicAuth}"}
 					if wwwURL[1] == 0:
-						feedurl = f"http://{URL}/web/subservices"
+						feedurl = f"https://{URL}/web/subservices"
 					else:
-						feedurl = f"http://{URL}/web/getcurrent"
+						feedurl = f"https://{URL}/web/getcurrent"
 					callInThread(getPage, feedurl, boundFunction(self.downloadwwwBoxCallback, i), boundFunction(self.downloadwwwBoxError, i), headers=Header)
 					L4log(f"wwwBox {i}", URL)
 			except Exception:
@@ -10023,7 +10023,7 @@ class UpdateStatus(Screen):
 						up = f"{username}:{password}".encode()
 						basicAuth = b64encode(up).decode()
 						Header = {"Authorization": f"Basic {basicAuth}"}
-					feedurl = f"http://{URL}/web/timerlist"
+					feedurl = f"https://{URL}/web/timerlist"
 					L4log(f"wwwBoxTimer {i}", feedurl)
 					callInThread(getPage, feedurl, boundFunction(self.downloadwwwBoxTimerCallback, i), boundFunction(self.downloadwwwBoxTimerError, i), headers=Header)
 					L4log(f"wwwBoxTimer {i}", URL)
@@ -10424,12 +10424,12 @@ class UpdateStatus(Screen):
 				("mode", "xml"),
 				("cnt", 1)
 			]
-			feedurl = "http://api.openweathermap.org/data/2.5/weather"
+			feedurl = "https://api.openweathermap.org/data/2.5/weather"
 			L4log("Sunrise downloadstart:", feedurl)
 			callInThread(boundFunction(getPage, feedurl, params=params), self.downloadSunriseCallback, self.downloadSunriseError)
 		else:
 			params = [("lat", self.Lat[0]), ("lng", self.Long[0]), ("formatted", 0)]
-			feedurl = "http://api.sunrise-sunset.org/json"
+			feedurl = "https://api.sunrise-sunset.org/json"
 			L4log("Sunrise2 downloadstart:", feedurl)
 			callInThread(boundFunction(getPage, feedurl, params=params), self.downloadSunriseCallback2, self.downloadSunriseError)
 
@@ -10882,7 +10882,7 @@ def getShowPicture(BildFile, idx):
 
 """
 Author: Sean B. Palmer, inamidst.com
-http://inamidst.com/code/moonphase.py
+https://inamidst.com/code/moonphase.py
 """
 
 
@@ -10912,7 +10912,7 @@ def MoonPhase(pos):
 """
 series expansion of the moon orbital elements from Chapront und Chapront-Touzé
 Quelle: htps://de.wikipedia.org/wiki/Mondbahn
-http://articles.adsabs.harvard.edu/full/1994A%26A...282..663S
+https://articles.adsabs.harvard.edu/full/1994A%26A...282..663S
 """
 
 

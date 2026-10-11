@@ -9,7 +9,7 @@ def parseXmlToJson(xml):
 class BlueSound:
 	def __init__(self, ip):
 		self.IP = ip
-		self.baseUrl = f"http://{ip}:11000/"
+		self.baseUrl = f"http://{ip}:11000/"  # NOSONAR - lokale BluOS-API bietet kein HTTPS
 
 	def urlGet(self, url):
 		f = urlopen(url, timeout=1)
