@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-#
-
 def getIPTVProvider(url):
 # This function determines the name of the IPTV provider by
 # the unique value of the substring in the broadcast url-link

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from os import environ
 from gettext import gettext, dgettext, bindtextdomain
 from Components.Language import language
@@ -24,4 +23,4 @@ def _(txt):
 localeInit()
 language.addCallback(localeInit)
 
-__version__ = "5.0.40"
+__version__ = "5.0.41"
