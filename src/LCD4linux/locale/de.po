@@ -1,19 +1,20 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: LCD4linux\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-04-08 10:12+0200\n"
-"PO-Revision-Date: 2025-09-24 18:27+0200\n"
+"PO-Revision-Date: 2026-10-05 18:32+0200\n"
 "Last-Translator: Mr.Servo <mrservo via GitHub.com>\n"
 "Language-Team: \n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Generator: Poedit 3.9\n"
 "X-Poedit-Basepath: .\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 3.7\n"
 
 #: ../plugin.py:345 ../plugin.py:346
 msgid "%"
@@ -2547,7 +2548,8 @@ msgstr "Nächste Aufnahme"
 
 #: ../WebConfigSite.py:244
 msgid "No or wrong File selected, try a correct File first !"
-msgstr "Keine oder eine falsche Datei ausgewählt, wähle zuerst eine richtige Datei !"
+msgstr ""
+"Keine oder eine falsche Datei ausgewählt, wähle zuerst eine richtige Datei !"
 
 #: ../plugin.py:828 ../plugin.py:1406 ../plugin.py:1767
 msgid "Normal"
@@ -2852,9 +2854,8 @@ msgid "Samsung SPF-1000P 1024x600"
 msgstr "Samsung SPF-1000P 1024x600"
 
 #: ../plugin.py:325
-#, fuzzy
 msgid "Samsung SPF-1000W 1024x768"
-msgstr "Samsung SPF-1000P 1024x600"
+msgstr "Samsung SPF-1000W 1024x768"
 
 #: ../plugin.py:324
 msgid "Samsung SPF-105P 1024x600"
@@ -2885,9 +2886,8 @@ msgid "Samsung SPF-800P 800x480"
 msgstr "Samsung SPF-800P 800x480"
 
 #: ../plugin.py:325
-#, fuzzy
 msgid "Samsung SPF-800W 800x600"
-msgstr "Samsung SPF-700T 800x600"
+msgstr "Samsung SPF-800W 800x600"
 
 #: ../plugin.py:323
 msgid "Samsung SPF-83H 800x600"
@@ -2928,7 +2928,7 @@ msgstr "Speichern der Einstellungen"
 #: ../plugin.py:5299
 #, python-format
 msgid "Save Config to File... (%s)"
-msgstr "Speichere Konfig in Datei... (%s)"
+msgstr "Konfiguration in Datei speichern... (%s)"
 
 #: ../plugin.py:5902
 msgid "Save as Picture for WebIF"
@@ -4238,3 +4238,48 @@ msgstr "ja, lang"
 #: ../plugin.py:470
 msgid "yes, short"
 msgstr "ja, kurz"
+
+#: ..\plugin.py:225 ..\plugin.py:8682
+msgid "mm"
+msgstr "mm"
+
+#: ..\plugin.py:226
+msgid "km"
+msgstr "km"
+
+#: ..\plugin.py:339
+msgid "240x80"
+msgstr "240x80"
+
+#: ..\plugin.py:1110 ..\plugin.py:1121 ..\plugin.py:1670 ..\plugin.py:1681
+#: ..\plugin.py:2135 ..\plugin.py:2146
+msgid "Celsius only"
+msgstr "nur Celsius"
+
+#: ..\plugin.py:1110 ..\plugin.py:1121 ..\plugin.py:1670 ..\plugin.py:1681
+#: ..\plugin.py:2135 ..\plugin.py:2146
+msgid "Degree and Celsius"
+msgstr "Grad und Celsius"
+
+#: ..\plugin.py:1110 ..\plugin.py:1121 ..\plugin.py:1670 ..\plugin.py:1681
+#: ..\plugin.py:2135 ..\plugin.py:2146
+msgid "Degree only"
+msgstr "nur Grad"
+
+#: ..\plugin.py:1110 ..\plugin.py:1121 ..\plugin.py:1670 ..\plugin.py:1681
+#: ..\plugin.py:2135 ..\plugin.py:2146
+msgid "No"
+msgstr "Nein"
+
+#: ..\plugin.py:6456 ..\plugin.py:6468 ..\plugin.py:7156 ..\plugin.py:7168
+#: ..\plugin.py:7669 ..\plugin.py:7681
+msgid "- Append Celsius sign"
+msgstr "- Celsius-Zeichen hinzufügen"
+
+#: ..\plugin.py:8679
+msgid "ppm"
+msgstr "ppm"
+
+#: ..\plugin.py:8680
+msgid "mbar"
+msgstr "mbar"
