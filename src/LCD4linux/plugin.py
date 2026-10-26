@@ -433,7 +433,7 @@ AGENT = choice(
 		"Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.2.11) Gecko/20101013 Ubuntu/10.04 (lucid) Firefox/3.6.11",
 		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36 Edg/153.0.0.0"
 	]
-)
+)  # NOSONAR(S2245) non-critical selection, no safety function
 # Find all directories "clock*" with result in a list, extract last two chars, extract integers, remove dupes, sort integers and convert it back to a list
 FoundClockDir = list(map(str, sorted(set([int(i) for i in findall(r'\d+', str(list(map(lambda found: str(found)[-2:], glob(f"{Clock}*")))))]))))
 LCD4linux = Config()
