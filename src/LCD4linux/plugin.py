@@ -277,8 +277,10 @@ MJPEGreader = [0, 0, 0, 0]
 MJPEGrun = [0, 0, 0, 0]
 CPUtotal = 0
 CPUidle = 0
-L4LSun = (7, 0)
-L4LMoon = (19, 0)
+L4LSunrise = (7, 0)
+L4LSunset = (19, 0)
+L4LMoonrise = (19, 0)
+L4LMoonset = (7, 0)
 INFO = ""
 WeekDays = [_("Mon"), _("Tue"), _("Wed"), _("Thur"), _("Fri"), _("Sat"), _("Sun")]
 Farbe = [
@@ -421,6 +423,17 @@ ProgressType = [
 ]
 now = localtime()
 begin = mktime((now.tm_year, now.tm_mon, now.tm_mday, 6, 00, 0, now.tm_wday, now.tm_yday, now.tm_isdst))
+AGENT = choice(
+    [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+		"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
+		"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Safari/605.1.15",
+		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+		"Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.2.11) Gecko/20101013 Ubuntu/10.04 (lucid) Firefox/3.6.11",
+		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36 Edg/153.0.0.0"
+	]
+)
 # Find all directories "clock*" with result in a list, extract last two chars, extract integers, remove dupes, sort integers and convert it back to a list
 FoundClockDir = list(map(str, sorted(set([int(i) for i in findall(r'\d+', str(list(map(lambda found: str(found)[-2:], glob(f"{Clock}*")))))]))))
 LCD4linux = Config()
@@ -740,17 +753,40 @@ LCD4linux.IconBarSplit = ConfigYesNo(default=False)
 LCD4linux.IconBarType = ConfigSelection(choices=DirType, default="0")
 LCD4linux.IconBarPopup = ConfigSelection(choices=[("0", _("off"))] + ScreenSet, default="0")
 LCD4linux.IconBarPopupLCD = ConfigSelection(choices=LCDSelect, default="1")
-LCD4linux.Sun = ConfigSelection(choices=ScreenSelect, default="0")
-LCD4linux.SunLCD = ConfigSelection(choices=LCDSelect, default="1")
-LCD4linux.SunSize = ConfigSlider(default=20, increment=1, limits=(5, 150))
-LCD4linux.SunPos = ConfigSlider(default=20, increment=2, limits=(0, 1024))
-LCD4linux.SunAlign = ConfigSelection(choices=AlignType, default="0")
-LCD4linux.SunSplit = ConfigYesNo(default=False)
-LCD4linux.SunColor = ConfigSelection(choices=Farbe, default="white")
-LCD4linux.SunBackColor = ConfigSelection(choices=[("0", _("off"))] + Farbe, default="0")
-LCD4linux.SunShadow = ConfigYesNo(default=False)
-LCD4linux.SunFont = ConfigSelection(choices=FontType, default="0")
-LCD4linux.SunType = ConfigSelection(choices=DirType, default="2")
+LCD4linux.sunRS = ConfigSelection(choices=ScreenSelect, default="0")  # sun rise /set
+LCD4linux.sunRSLCD = ConfigSelection(choices=LCDSelect, default="1")
+LCD4linux.sunRSSize = ConfigSlider(default=20, increment=1, limits=(5, 150))
+LCD4linux.sunRSPos = ConfigSlider(default=20, increment=2, limits=(0, 1024))
+LCD4linux.sunRSAlign = ConfigSelection(choices=AlignType, default="0")
+LCD4linux.sunRSSplit = ConfigYesNo(default=False)
+LCD4linux.sunRSColor = ConfigSelection(choices=Farbe, default="white")
+LCD4linux.sunRSBackColor = ConfigSelection(choices=[("0", _("off"))] + Farbe, default="0")
+LCD4linux.sunRSShadow = ConfigYesNo(default=False)
+LCD4linux.sunRSFont = ConfigSelection(choices=FontType, default="0")
+LCD4linux.sunRSType = ConfigSelection(choices=DirType, default="2")
+LCD4linux.MoonRS = ConfigSelection(choices=ScreenSelect, default="0")  # moon rise /set
+LCD4linux.MoonRSLCD = ConfigSelection(choices=LCDSelect, default="1")
+LCD4linux.MoonRSSize = ConfigSlider(default=20, increment=1, limits=(5, 150))
+LCD4linux.MoonRSPos = ConfigSlider(default=20, increment=2, limits=(0, 1024))
+LCD4linux.MoonRSAlign = ConfigSelection(choices=AlignType, default="0")
+LCD4linux.MoonRSSplit = ConfigYesNo(default=False)
+LCD4linux.MoonRSColor = ConfigSelection(choices=Farbe, default="white")
+LCD4linux.MoonRSBackColor = ConfigSelection(choices=[("0", _("off"))] + Farbe, default="0")
+LCD4linux.MoonRSShadow = ConfigYesNo(default=False)
+LCD4linux.MoonRSFont = ConfigSelection(choices=FontType, default="0")
+LCD4linux.MoonRSType = ConfigSelection(choices=DirType, default="2")
+LCD4linux.MoonPH = ConfigSelection(choices=ScreenSelect, default="0")  # moon phase
+LCD4linux.MoonPHLCD = ConfigSelection(choices=LCDSelect, default="1")
+LCD4linux.MoonPHSize = ConfigSlider(default=60, increment=2, limits=(10, 300))
+LCD4linux.MoonPHFontSize = ConfigSlider(default=30, increment=1, limits=(8, 100))
+LCD4linux.MoonPHPos = ConfigSlider(default=10, increment=2, limits=(0, 1024))
+LCD4linux.MoonPHAlign = ConfigSelection(choices=AlignType, default="0")
+LCD4linux.MoonPHInfos = ConfigSelection(choices=MoonInfoSelect, default="111")
+LCD4linux.MoonPHTrends = ConfigYesNo(default=True)
+LCD4linux.MoonPHSplit = ConfigYesNo(default=False)
+LCD4linux.MoonPHColor = ConfigSelection(choices=[("0", _("off"))] + Farbe, default="white")
+LCD4linux.MoonPHShadow = ConfigYesNo(default=False)
+LCD4linux.MoonPHFont = ConfigSelection(choices=FontType, default="0")
 LCD4linux.Fritz = ConfigSelection(choices=ScreenSelect, default="0")
 LCD4linux.FritzLCD = ConfigSelection(choices=LCDSelect, default="1")
 LCD4linux.FritzSize = ConfigSlider(default=22, increment=1, limits=(8, 150))
@@ -1128,18 +1164,6 @@ LCD4linux.MeteoSplit = ConfigYesNo(default=False)
 LCD4linux.MeteoZoom = ConfigSlider(default=10, increment=1, limits=(7, 60))
 LCD4linux.MeteoType = ConfigSelection(choices=MeteoType, default="1")
 LCD4linux.MeteoColor = ConfigSelection(choices=Farbe, default="white")
-LCD4linux.Moon = ConfigSelection(choices=ScreenSelect, default="0")
-LCD4linux.MoonLCD = ConfigSelection(choices=LCDSelect, default="1")
-LCD4linux.MoonSize = ConfigSlider(default=60, increment=2, limits=(10, 300))
-LCD4linux.MoonFontSize = ConfigSlider(default=30, increment=1, limits=(8, 100))
-LCD4linux.MoonPos = ConfigSlider(default=10, increment=2, limits=(0, 1024))
-LCD4linux.MoonAlign = ConfigSelection(choices=AlignType, default="0")
-LCD4linux.MoonInfos = ConfigSelection(choices=MoonInfoSelect, default="111")
-LCD4linux.MoonTrends = ConfigYesNo(default=True)
-LCD4linux.MoonSplit = ConfigYesNo(default=False)
-LCD4linux.MoonColor = ConfigSelection(choices=[("0", _("off"))] + Farbe, default="white")
-LCD4linux.MoonShadow = ConfigYesNo(default=False)
-LCD4linux.MoonFont = ConfigSelection(choices=FontType, default="0")
 LCD4linux.NetAtmoCO2Min = ConfigSlider(default=200, increment=100, limits=(0, 1000))
 LCD4linux.NetAtmoCO2Max = ConfigSlider(default=1500, increment=100, limits=(500, 10000))
 LCD4linux.NetAtmo = ConfigSelection(choices=ScreenSelect, default="0")
@@ -1688,18 +1712,6 @@ LCD4linux.MPMeteoSplit = ConfigYesNo(default=False)
 LCD4linux.MPMeteoZoom = ConfigSlider(default=10, increment=1, limits=(7, 60))
 LCD4linux.MPMeteoType = ConfigSelection(choices=MeteoType, default="1")
 LCD4linux.MPMeteoColor = ConfigSelection(choices=Farbe, default="white")
-LCD4linux.MPMoon = ConfigSelection(choices=ScreenSelect, default="0")
-LCD4linux.MPMoonLCD = ConfigSelection(choices=LCDSelect, default="1")
-LCD4linux.MPMoonSize = ConfigSlider(default=60, increment=2, limits=(10, 300))
-LCD4linux.MPMoonFontSize = ConfigSlider(default=30, increment=1, limits=(8, 100))
-LCD4linux.MPMoonPos = ConfigSlider(default=10, increment=2, limits=(0, 1024))
-LCD4linux.MPMoonAlign = ConfigSelection(choices=AlignType, default="0")
-LCD4linux.MPMoonInfos = ConfigSelection(choices=MoonInfoSelect, default="111")
-LCD4linux.MPMoonTrends = ConfigYesNo(default=True)
-LCD4linux.MPMoonSplit = ConfigYesNo(default=False)
-LCD4linux.MPMoonColor = ConfigSelection(choices=[("0", _("off"))] + Farbe, default="white")
-LCD4linux.MPMoonShadow = ConfigYesNo(default=False)
-LCD4linux.MPMoonFont = ConfigSelection(choices=FontType, default="0")
 LCD4linux.MPNetAtmo = ConfigSelection(choices=ScreenSelect, default="0")
 LCD4linux.MPNetAtmoLCD = ConfigSelection(choices=LCDSelect, default="1")
 LCD4linux.MPNetAtmoPos = ConfigSlider(default=50, increment=2, limits=(0, 1024))
@@ -1869,17 +1881,40 @@ LCD4linux.MPIconBarSplit = ConfigYesNo(default=False)
 LCD4linux.MPIconBarType = ConfigSelection(choices=DirType, default="0")
 LCD4linux.MPIconBarPopup = ConfigSelection(choices=[("0", _("off"))] + ScreenSet, default="0")
 LCD4linux.MPIconBarPopupLCD = ConfigSelection(choices=LCDSelect, default="1")
-LCD4linux.MPSun = ConfigSelection(choices=ScreenSelect, default="0")
-LCD4linux.MPSunLCD = ConfigSelection(choices=LCDSelect, default="1")
-LCD4linux.MPSunSize = ConfigSlider(default=20, increment=1, limits=(5, 150))
-LCD4linux.MPSunPos = ConfigSlider(default=20, increment=2, limits=(0, 1024))
-LCD4linux.MPSunAlign = ConfigSelection(choices=AlignType, default="0")
-LCD4linux.MPSunSplit = ConfigYesNo(default=False)
-LCD4linux.MPSunColor = ConfigSelection(choices=Farbe, default="white")
-LCD4linux.MPSunBackColor = ConfigSelection(choices=[("0", _("off"))] + Farbe, default="0")
-LCD4linux.MPSunShadow = ConfigYesNo(default=False)
-LCD4linux.MPSunFont = ConfigSelection(choices=FontType, default="0")
-LCD4linux.MPSunType = ConfigSelection(choices=DirType, default="2")
+LCD4linux.MPsunRS = ConfigSelection(choices=ScreenSelect, default="0")  # sun rise /set
+LCD4linux.MPsunRSLCD = ConfigSelection(choices=LCDSelect, default="1")
+LCD4linux.MPsunRSSize = ConfigSlider(default=20, increment=1, limits=(5, 150))
+LCD4linux.MPsunRSPos = ConfigSlider(default=20, increment=2, limits=(0, 1024))
+LCD4linux.MPsunRSAlign = ConfigSelection(choices=AlignType, default="0")
+LCD4linux.MPsunRSSplit = ConfigYesNo(default=False)
+LCD4linux.MPsunRSColor = ConfigSelection(choices=Farbe, default="white")
+LCD4linux.MPsunRSBackColor = ConfigSelection(choices=[("0", _("off"))] + Farbe, default="0")
+LCD4linux.MPsunRSShadow = ConfigYesNo(default=False)
+LCD4linux.MPsunRSFont = ConfigSelection(choices=FontType, default="0")
+LCD4linux.MPsunRSType = ConfigSelection(choices=DirType, default="2")
+LCD4linux.MPMoonRS = ConfigSelection(choices=ScreenSelect, default="0")  # moon rise /set
+LCD4linux.MPMoonRSLCD = ConfigSelection(choices=LCDSelect, default="1")
+LCD4linux.MPMoonRSSize = ConfigSlider(default=20, increment=1, limits=(5, 150))
+LCD4linux.MPMoonRSPos = ConfigSlider(default=20, increment=2, limits=(0, 1024))
+LCD4linux.MPMoonRSAlign = ConfigSelection(choices=AlignType, default="0")
+LCD4linux.MPMoonRSSplit = ConfigYesNo(default=False)
+LCD4linux.MPMoonRSColor = ConfigSelection(choices=Farbe, default="white")
+LCD4linux.MPMoonRSBackColor = ConfigSelection(choices=[("0", _("off"))] + Farbe, default="0")
+LCD4linux.MPMoonRSShadow = ConfigYesNo(default=False)
+LCD4linux.MPMoonRSFont = ConfigSelection(choices=FontType, default="0")
+LCD4linux.MPMoonRSType = ConfigSelection(choices=DirType, default="2")
+LCD4linux.MPMoonPH = ConfigSelection(choices=ScreenSelect, default="0")  # moon phase
+LCD4linux.MPMoonPHLCD = ConfigSelection(choices=LCDSelect, default="1")
+LCD4linux.MPMoonPHSize = ConfigSlider(default=60, increment=2, limits=(10, 300))
+LCD4linux.MPMoonPHFontSize = ConfigSlider(default=30, increment=1, limits=(8, 100))
+LCD4linux.MPMoonPHPos = ConfigSlider(default=10, increment=2, limits=(0, 1024))
+LCD4linux.MPMoonPHAlign = ConfigSelection(choices=AlignType, default="0")
+LCD4linux.MPMoonPHInfos = ConfigSelection(choices=MoonInfoSelect, default="111")
+LCD4linux.MPMoonPHTrends = ConfigYesNo(default=True)
+LCD4linux.MPMoonPHSplit = ConfigYesNo(default=False)
+LCD4linux.MPMoonPHColor = ConfigSelection(choices=[("0", _("off"))] + Farbe, default="white")
+LCD4linux.MPMoonPHShadow = ConfigYesNo(default=False)
+LCD4linux.MPMoonPHFont = ConfigSelection(choices=FontType, default="0")
 LCD4linux.MPFritz = ConfigSelection(choices=ScreenSelect, default="0")
 LCD4linux.MPFritzLCD = ConfigSelection(choices=LCDSelect, default="1")
 LCD4linux.MPFritzSize = ConfigSlider(default=22, increment=1, limits=(10, 150))
@@ -2153,18 +2188,6 @@ LCD4linux.StandbyMeteoSplit = ConfigYesNo(default=False)
 LCD4linux.StandbyMeteoZoom = ConfigSlider(default=10, increment=1, limits=(7, 60))
 LCD4linux.StandbyMeteoType = ConfigSelection(choices=MeteoType, default="1")
 LCD4linux.StandbyMeteoColor = ConfigSelection(choices=Farbe, default="white")
-LCD4linux.StandbyMoon = ConfigSelection(choices=ScreenSelect, default="0")
-LCD4linux.StandbyMoonLCD = ConfigSelection(choices=LCDSelect, default="1")
-LCD4linux.StandbyMoonSize = ConfigSlider(default=60, increment=2, limits=(10, 300))
-LCD4linux.StandbyMoonFontSize = ConfigSlider(default=30, increment=1, limits=(8, 100))
-LCD4linux.StandbyMoonPos = ConfigSlider(default=10, increment=2, limits=(0, 1024))
-LCD4linux.StandbyMoonAlign = ConfigSelection(choices=AlignType, default="0")
-LCD4linux.StandbyMoonInfos = ConfigSelection(choices=MoonInfoSelect, default="111")
-LCD4linux.StandbyMoonTrends = ConfigYesNo(default=True)
-LCD4linux.StandbyMoonSplit = ConfigYesNo(default=False)
-LCD4linux.StandbyMoonColor = ConfigSelection(choices=[("0", _("off"))] + Farbe, default="white")
-LCD4linux.StandbyMoonShadow = ConfigYesNo(default=False)
-LCD4linux.StandbyMoonFont = ConfigSelection(choices=FontType, default="0")
 LCD4linux.StandbyNetAtmo = ConfigSelection(choices=ScreenSelect, default="0")
 LCD4linux.StandbyNetAtmoLCD = ConfigSelection(choices=LCDSelect, default="1")
 LCD4linux.StandbyNetAtmoPos = ConfigSlider(default=50, increment=2, limits=(0, 1024))
@@ -2386,17 +2409,40 @@ LCD4linux.StandbyIconBarSplit = ConfigYesNo(default=False)
 LCD4linux.StandbyIconBarType = ConfigSelection(choices=DirType, default="0")
 LCD4linux.StandbyIconBarPopup = ConfigSelection(choices=[("0", _("off"))] + ScreenSet, default="0")
 LCD4linux.StandbyIconBarPopupLCD = ConfigSelection(choices=LCDSelect, default="1")
-LCD4linux.StandbySun = ConfigSelection(choices=ScreenSelect, default="0")
-LCD4linux.StandbySunLCD = ConfigSelection(choices=LCDSelect, default="1")
-LCD4linux.StandbySunSize = ConfigSlider(default=20, increment=1, limits=(5, 150))
-LCD4linux.StandbySunPos = ConfigSlider(default=20, increment=2, limits=(0, 1024))
-LCD4linux.StandbySunAlign = ConfigSelection(choices=AlignType, default="0")
-LCD4linux.StandbySunSplit = ConfigYesNo(default=False)
-LCD4linux.StandbySunColor = ConfigSelection(choices=Farbe, default="white")
-LCD4linux.StandbySunBackColor = ConfigSelection(choices=[("0", _("off"))] + Farbe, default="0")
-LCD4linux.StandbySunShadow = ConfigYesNo(default=False)
-LCD4linux.StandbySunFont = ConfigSelection(choices=FontType, default="0")
-LCD4linux.StandbySunType = ConfigSelection(choices=DirType, default="2")
+LCD4linux.StandbysunRS = ConfigSelection(choices=ScreenSelect, default="0")  # sun rise /set
+LCD4linux.StandbysunRSLCD = ConfigSelection(choices=LCDSelect, default="1")
+LCD4linux.StandbysunRSSize = ConfigSlider(default=20, increment=1, limits=(5, 150))
+LCD4linux.StandbysunRSPos = ConfigSlider(default=20, increment=2, limits=(0, 1024))
+LCD4linux.StandbysunRSAlign = ConfigSelection(choices=AlignType, default="0")
+LCD4linux.StandbysunRSSplit = ConfigYesNo(default=False)
+LCD4linux.StandbysunRSColor = ConfigSelection(choices=Farbe, default="white")
+LCD4linux.StandbysunRSBackColor = ConfigSelection(choices=[("0", _("off"))] + Farbe, default="0")
+LCD4linux.StandbysunRSShadow = ConfigYesNo(default=False)
+LCD4linux.StandbysunRSFont = ConfigSelection(choices=FontType, default="0")
+LCD4linux.StandbysunRSType = ConfigSelection(choices=DirType, default="2")
+LCD4linux.StandbyMoonRS = ConfigSelection(choices=ScreenSelect, default="0")  # moon rise /set
+LCD4linux.StandbyMoonRSLCD = ConfigSelection(choices=LCDSelect, default="1")
+LCD4linux.StandbyMoonRSSize = ConfigSlider(default=20, increment=1, limits=(5, 150))
+LCD4linux.StandbyMoonRSPos = ConfigSlider(default=20, increment=2, limits=(0, 1024))
+LCD4linux.StandbyMoonRSAlign = ConfigSelection(choices=AlignType, default="0")
+LCD4linux.StandbyMoonRSSplit = ConfigYesNo(default=False)
+LCD4linux.StandbyMoonRSColor = ConfigSelection(choices=Farbe, default="white")
+LCD4linux.StandbyMoonRSBackColor = ConfigSelection(choices=[("0", _("off"))] + Farbe, default="0")
+LCD4linux.StandbyMoonRSShadow = ConfigYesNo(default=False)
+LCD4linux.StandbyMoonRSFont = ConfigSelection(choices=FontType, default="0")
+LCD4linux.StandbyMoonRSType = ConfigSelection(choices=DirType, default="2")
+LCD4linux.StandbyMoonPH = ConfigSelection(choices=ScreenSelect, default="0")  # moon phase
+LCD4linux.StandbyMoonPHLCD = ConfigSelection(choices=LCDSelect, default="1")
+LCD4linux.StandbyMoonPHSize = ConfigSlider(default=60, increment=2, limits=(10, 300))
+LCD4linux.StandbyMoonPHFontSize = ConfigSlider(default=30, increment=1, limits=(8, 100))
+LCD4linux.StandbyMoonPHPos = ConfigSlider(default=10, increment=2, limits=(0, 1024))
+LCD4linux.StandbyMoonPHAlign = ConfigSelection(choices=AlignType, default="0")
+LCD4linux.StandbyMoonPHInfos = ConfigSelection(choices=MoonInfoSelect, default="111")
+LCD4linux.StandbyMoonPHTrends = ConfigYesNo(default=True)
+LCD4linux.StandbyMoonPHSplit = ConfigYesNo(default=False)
+LCD4linux.StandbyMoonPHColor = ConfigSelection(choices=[("0", _("off"))] + Farbe, default="white")
+LCD4linux.StandbyMoonPHShadow = ConfigYesNo(default=False)
+LCD4linux.StandbyMoonPHFont = ConfigSelection(choices=FontType, default="0")
 LCD4linux.StandbyFritz = ConfigSelection(choices=ScreenSelect, default="0")
 LCD4linux.StandbyFritzLCD = ConfigSelection(choices=LCDSelect, default="1")
 LCD4linux.StandbyFritzSize = ConfigSlider(default=22, increment=1, limits=(10, 150))
@@ -2709,8 +2755,8 @@ def getTimeDiff():
 
 
 def getTimeDiffUTC():
-	t = datetime.now() - datetime.utcnow()
-	return int(t.days * 24 + round(t.seconds / 3600.0))
+    offset = datetime.now().astimezone().utcoffset()
+    return round(offset.total_seconds() / 3600) if offset is not None else 0
 
 
 def getTimeDiffUTC2():
@@ -3315,7 +3361,7 @@ def writeHelligkeit(hell, night, STOP):
 	h1 = BRI(hell[0], 1)
 	h2 = BRI(hell[1], 2)
 	h3 = BRI(hell[2], 3)
-	if isOffTime(L4LMoon, L4LSun, L4LMoon, L4LSun):
+	if isOffTime(L4LSunset, L4LSunrise, L4LSunset, L4LSunrise):
 		if int(night[0]) != 0:
 			h1 = max(h1 - int(night[0]), 0)
 		if int(night[1]) != 0:
@@ -4871,18 +4917,10 @@ except Exception:
 
 
 def getPage(link, success, fail=None, headers=None, params=None, timeout=(3.05, 6)):
-	agents = [
-		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36",
-		"Mozilla/5.0 (iPhone; CPU iPhone OS 14_4_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1",
-		"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/110.0",
-		"Mozilla/4.0 (compatible; MSIE 9.0; Windows NT 6.1)",
-		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36 Edg/87.0.664.75",
-		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.18363"
-	]
 	if headers is None:
 		headers = {}
 	if "User-Agent" not in headers:
-		headers["User-Agent"] = choice(agents)
+		headers["User-Agent"] = AGENT
 	link = link.replace("\n", "").replace(" ", "%20")
 	try:
 		response = get(link, headers=headers, params=params, timeout=timeout)
@@ -6542,31 +6580,43 @@ class LCDdisplayConfig(ConfigListScreen, Screen):
 				self.list2.append(getConfigListEntry(_("- Split Screen"), LCD4linux.NetAtmoIDXSplit))
 				self.list2.append(getConfigListEntry(_("- Station"), LCD4linux.NetAtmoIDXStation))
 				self.list2.append(getConfigListEntry(_("- Type"), LCD4linux.NetAtmoIDXType))
-			self.list2.append(getConfigListEntry(_("Moonphase"), LCD4linux.Moon))
-			if LCD4linux.Moon.value != "0":
-				self.list2.append(getConfigListEntry(_("- which LCD"), LCD4linux.MoonLCD))
-				self.list2.append(getConfigListEntry(_("- Size"), LCD4linux.MoonSize))
-				self.list2.append(getConfigListEntry(_("- Font Size"), LCD4linux.MoonFontSize))
-				self.list2.append(getConfigListEntry(_("- Position"), LCD4linux.MoonPos))
-				self.list2.append(getConfigListEntry(_("- Alignment"), LCD4linux.MoonAlign))
-				self.list2.append(getConfigListEntry(_("- Infolines"), LCD4linux.MoonInfos))
-				self.list2.append(getConfigListEntry(_("- Trendarrows"), LCD4linux.MoonTrends))
-				self.list2.append(getConfigListEntry(_("- Split Screen"), LCD4linux.MoonSplit))
-				self.list2.append(getConfigListEntry(_("- Color"), LCD4linux.MoonColor))
-				self.list2.append(getConfigListEntry(_("- Shadow Edges"), LCD4linux.MoonShadow))
-				self.list2.append(getConfigListEntry(_("- Font"), LCD4linux.MoonFont))
-			self.list2.append(getConfigListEntry(_("Sunrise"), LCD4linux.Sun))
-			if LCD4linux.Sun.value != "0":
-				self.list2.append(getConfigListEntry(_("- which LCD"), LCD4linux.SunLCD))
-				self.list2.append(getConfigListEntry(_("- Font Size"), LCD4linux.SunSize))
-				self.list2.append(getConfigListEntry(_("- Position"), LCD4linux.SunPos))
-				self.list2.append(getConfigListEntry(_("- Alignment"), LCD4linux.SunAlign))
-				self.list2.append(getConfigListEntry(_("- Split Screen"), LCD4linux.SunSplit))
-				self.list2.append(getConfigListEntry(_("- Color"), LCD4linux.SunColor))
-				self.list2.append(getConfigListEntry(_("- Background Color"), LCD4linux.SunBackColor))
-				self.list2.append(getConfigListEntry(_("- Type"), LCD4linux.SunType))
-				self.list2.append(getConfigListEntry(_("- Shadow Edges"), LCD4linux.SunShadow))
-				self.list2.append(getConfigListEntry(_("- Font"), LCD4linux.SunFont))
+			self.list2.append(getConfigListEntry(_("Sunrise/Sunset"), LCD4linux.sunRS))
+			if LCD4linux.sunRS.value != "0":
+				self.list2.append(getConfigListEntry(_("- which LCD"), LCD4linux.sunRSLCD))
+				self.list2.append(getConfigListEntry(_("- Font Size"), LCD4linux.sunRSSize))
+				self.list2.append(getConfigListEntry(_("- Position"), LCD4linux.sunRSPos))
+				self.list2.append(getConfigListEntry(_("- Alignment"), LCD4linux.sunRSAlign))
+				self.list2.append(getConfigListEntry(_("- Split Screen"), LCD4linux.sunRSSplit))
+				self.list2.append(getConfigListEntry(_("- Color"), LCD4linux.sunRSColor))
+				self.list2.append(getConfigListEntry(_("- Background Color"), LCD4linux.sunRSBackColor))
+				self.list2.append(getConfigListEntry(_("- Type"), LCD4linux.sunRSType))
+				self.list2.append(getConfigListEntry(_("- Shadow Edges"), LCD4linux.sunRSShadow))
+				self.list2.append(getConfigListEntry(_("- Font"), LCD4linux.sunRSFont))
+			self.list2.append(getConfigListEntry(_("Moonrise/Moonset"), LCD4linux.MoonRS))
+			if LCD4linux.MoonRS.value != "0":
+				self.list2.append(getConfigListEntry(_("- which LCD"), LCD4linux.MoonRSLCD))
+				self.list2.append(getConfigListEntry(_("- Font Size"), LCD4linux.MoonRSSize))
+				self.list2.append(getConfigListEntry(_("- Position"), LCD4linux.MoonRSPos))
+				self.list2.append(getConfigListEntry(_("- Alignment"), LCD4linux.MoonRSAlign))
+				self.list2.append(getConfigListEntry(_("- Split Screen"), LCD4linux.MoonRSSplit))
+				self.list2.append(getConfigListEntry(_("- Color"), LCD4linux.MoonRSColor))
+				self.list2.append(getConfigListEntry(_("- Background Color"), LCD4linux.MoonRSBackColor))
+				self.list2.append(getConfigListEntry(_("- Type"), LCD4linux.MoonRSType))
+				self.list2.append(getConfigListEntry(_("- Shadow Edges"), LCD4linux.MoonRSShadow))
+				self.list2.append(getConfigListEntry(_("- Font"), LCD4linux.MoonRSFont))
+			self.list2.append(getConfigListEntry(_("Moonphase"), LCD4linux.MoonPH))
+			if LCD4linux.MoonPH.value != "0":
+				self.list2.append(getConfigListEntry(_("- which LCD"), LCD4linux.MoonPHLCD))
+				self.list2.append(getConfigListEntry(_("- Size"), LCD4linux.MoonPHSize))
+				self.list2.append(getConfigListEntry(_("- Font Size"), LCD4linux.MoonPHFontSize))
+				self.list2.append(getConfigListEntry(_("- Position"), LCD4linux.MoonPHPos))
+				self.list2.append(getConfigListEntry(_("- Alignment"), LCD4linux.MoonPHAlign))
+				self.list2.append(getConfigListEntry(_("- Infolines"), LCD4linux.MoonPHInfos))
+				self.list2.append(getConfigListEntry(_("- Trendarrows"), LCD4linux.MoonPHTrends))
+				self.list2.append(getConfigListEntry(_("- Split Screen"), LCD4linux.MoonPHSplit))
+				self.list2.append(getConfigListEntry(_("- Color"), LCD4linux.MoonPHColor))
+				self.list2.append(getConfigListEntry(_("- Shadow Edges"), LCD4linux.MoonPHShadow))
+				self.list2.append(getConfigListEntry(_("- Font"), LCD4linux.MoonPHFont))
 			self.list2.append(getConfigListEntry(_("Show oscam.lcd"), LCD4linux.OSCAM))
 			if LCD4linux.OSCAM.value != "0":
 				self.list2.append(getConfigListEntry(_("- which LCD"), LCD4linux.OSCAMLCD))
@@ -7242,31 +7292,43 @@ class LCDdisplayConfig(ConfigListScreen, Screen):
 				self.list3.append(getConfigListEntry(_("- Split Screen"), LCD4linux.MPNetAtmoIDXSplit))
 				self.list3.append(getConfigListEntry(_("- Station"), LCD4linux.MPNetAtmoIDXStation))
 				self.list3.append(getConfigListEntry(_("- Type"), LCD4linux.MPNetAtmoIDXType))
-			self.list3.append(getConfigListEntry(_("Moonphase"), LCD4linux.MPMoon))
-			if LCD4linux.MPMoon.value != "0":
-				self.list3.append(getConfigListEntry(_("- which LCD"), LCD4linux.MPMoonLCD))
-				self.list3.append(getConfigListEntry(_("- Size"), LCD4linux.MPMoonSize))
-				self.list3.append(getConfigListEntry(_("- Font Size"), LCD4linux.MPMoonFontSize))
-				self.list3.append(getConfigListEntry(_("- Position"), LCD4linux.MPMoonPos))
-				self.list3.append(getConfigListEntry(_("- Alignment"), LCD4linux.MPMoonAlign))
-				self.list3.append(getConfigListEntry(_("- Infolines"), LCD4linux.MPMoonInfos))
-				self.list3.append(getConfigListEntry(_("- Infolines"), LCD4linux.MPMoonTrends))
-				self.list3.append(getConfigListEntry(_("- Split Screen"), LCD4linux.MPMoonSplit))
-				self.list3.append(getConfigListEntry(_("- Color"), LCD4linux.MPMoonColor))
-				self.list3.append(getConfigListEntry(_("- Shadow Edges"), LCD4linux.MPMoonShadow))
-				self.list3.append(getConfigListEntry(_("- Font"), LCD4linux.MPMoonFont))
-			self.list3.append(getConfigListEntry(_("Sunrise"), LCD4linux.MPSun))
-			if LCD4linux.MPSun.value != "0":
-				self.list3.append(getConfigListEntry(_("- which LCD"), LCD4linux.MPSunLCD))
-				self.list3.append(getConfigListEntry(_("- Font Size"), LCD4linux.MPSunSize))
-				self.list3.append(getConfigListEntry(_("- Position"), LCD4linux.MPSunPos))
-				self.list3.append(getConfigListEntry(_("- Alignment"), LCD4linux.MPSunAlign))
-				self.list3.append(getConfigListEntry(_("- Split Screen"), LCD4linux.MPSunSplit))
-				self.list3.append(getConfigListEntry(_("- Color"), LCD4linux.MPSunColor))
-				self.list3.append(getConfigListEntry(_("- Background Color"), LCD4linux.MPSunBackColor))
-				self.list3.append(getConfigListEntry(_("- Type"), LCD4linux.MPSunType))
-				self.list3.append(getConfigListEntry(_("- Shadow Edges"), LCD4linux.MPSunShadow))
-				self.list3.append(getConfigListEntry(_("- Font"), LCD4linux.MPSunFont))
+			self.list3.append(getConfigListEntry(_("Sunrise/Sunset"), LCD4linux.MPsunRS))
+			if LCD4linux.MPsunRS.value != "0":
+				self.list3.append(getConfigListEntry(_("- which LCD"), LCD4linux.MPsunRSLCD))
+				self.list3.append(getConfigListEntry(_("- Font Size"), LCD4linux.MPsunRSSize))
+				self.list3.append(getConfigListEntry(_("- Position"), LCD4linux.MPsunRSPos))
+				self.list3.append(getConfigListEntry(_("- Alignment"), LCD4linux.MPsunRSAlign))
+				self.list3.append(getConfigListEntry(_("- Split Screen"), LCD4linux.MPsunRSSplit))
+				self.list3.append(getConfigListEntry(_("- Color"), LCD4linux.MPsunRSColor))
+				self.list3.append(getConfigListEntry(_("- Background Color"), LCD4linux.MPsunRSBackColor))
+				self.list3.append(getConfigListEntry(_("- Type"), LCD4linux.MPsunRSType))
+				self.list3.append(getConfigListEntry(_("- Shadow Edges"), LCD4linux.MPsunRSShadow))
+				self.list3.append(getConfigListEntry(_("- Font"), LCD4linux.MPsunRSFont))
+			self.list3.append(getConfigListEntry(_("Moonrise/Moonset"), LCD4linux.MPMoonRS))
+			if LCD4linux.MPMoonRS.value != "0":
+				self.list3.append(getConfigListEntry(_("- which LCD"), LCD4linux.MPMoonRSLCD))
+				self.list3.append(getConfigListEntry(_("- Font Size"), LCD4linux.MPMoonRSSize))
+				self.list3.append(getConfigListEntry(_("- Position"), LCD4linux.MPMoonRSPos))
+				self.list3.append(getConfigListEntry(_("- Alignment"), LCD4linux.MPMoonRSAlign))
+				self.list3.append(getConfigListEntry(_("- Split Screen"), LCD4linux.MPMoonRSSplit))
+				self.list3.append(getConfigListEntry(_("- Color"), LCD4linux.MPMoonRSColor))
+				self.list3.append(getConfigListEntry(_("- Background Color"), LCD4linux.MPMoonRSBackColor))
+				self.list3.append(getConfigListEntry(_("- Type"), LCD4linux.MPMoonRSType))
+				self.list3.append(getConfigListEntry(_("- Shadow Edges"), LCD4linux.MPMoonRSShadow))
+				self.list3.append(getConfigListEntry(_("- Font"), LCD4linux.MPMoonRSFont))
+			self.list3.append(getConfigListEntry(_("Moonphase"), LCD4linux.MPMoonPH))
+			if LCD4linux.MPMoonPH.value != "0":
+				self.list3.append(getConfigListEntry(_("- which LCD"), LCD4linux.MPMoonPHLCD))
+				self.list3.append(getConfigListEntry(_("- Size"), LCD4linux.MPMoonPHSize))
+				self.list3.append(getConfigListEntry(_("- Font Size"), LCD4linux.MPMoonPHFontSize))
+				self.list3.append(getConfigListEntry(_("- Position"), LCD4linux.MPMoonPHPos))
+				self.list3.append(getConfigListEntry(_("- Alignment"), LCD4linux.MPMoonPHAlign))
+				self.list3.append(getConfigListEntry(_("- Infolines"), LCD4linux.MPMoonPHInfos))
+				self.list3.append(getConfigListEntry(_("- Infolines"), LCD4linux.MPMoonPHTrends))
+				self.list3.append(getConfigListEntry(_("- Split Screen"), LCD4linux.MPMoonPHSplit))
+				self.list3.append(getConfigListEntry(_("- Color"), LCD4linux.MPMoonPHColor))
+				self.list3.append(getConfigListEntry(_("- Shadow Edges"), LCD4linux.MPMoonPHShadow))
+				self.list3.append(getConfigListEntry(_("- Font"), LCD4linux.MPMoonPHFont))
 			self.list3.append(getConfigListEntry(_("Show Textfile"), LCD4linux.MPText))
 			if LCD4linux.MPText.value != "0":
 				self.list3.append(getConfigListEntry(_("- which LCD"), LCD4linux.MPTextLCD))
@@ -7755,31 +7817,43 @@ class LCDdisplayConfig(ConfigListScreen, Screen):
 				self.list4.append(getConfigListEntry(_("- Split Screen"), LCD4linux.StandbyNetAtmoIDXSplit))
 				self.list4.append(getConfigListEntry(_("- Station"), LCD4linux.StandbyNetAtmoIDXStation))
 				self.list4.append(getConfigListEntry(_("- Type"), LCD4linux.StandbyNetAtmoIDXType))
-			self.list4.append(getConfigListEntry(_("Moonphase"), LCD4linux.StandbyMoon))
-			if LCD4linux.StandbyMoon.value != "0":
-				self.list4.append(getConfigListEntry(_("- which LCD"), LCD4linux.StandbyMoonLCD))
-				self.list4.append(getConfigListEntry(_("- Size"), LCD4linux.StandbyMoonSize))
-				self.list4.append(getConfigListEntry(_("- Font Size"), LCD4linux.StandbyMoonFontSize))
-				self.list4.append(getConfigListEntry(_("- Position"), LCD4linux.StandbyMoonPos))
-				self.list4.append(getConfigListEntry(_("- Alignment"), LCD4linux.StandbyMoonAlign))
-				self.list4.append(getConfigListEntry(_("- Infolines"), LCD4linux.StandbyMoonInfos))
-				self.list4.append(getConfigListEntry(_("- Trendarrows"), LCD4linux.StandbyMoonTrends))
-				self.list4.append(getConfigListEntry(_("- Split Screen"), LCD4linux.StandbyMoonSplit))
-				self.list4.append(getConfigListEntry(_("- Color"), LCD4linux.StandbyMoonColor))
-				self.list4.append(getConfigListEntry(_("- Shadow Edges"), LCD4linux.StandbyMoonShadow))
-				self.list4.append(getConfigListEntry(_("- Font"), LCD4linux.StandbyMoonFont))
-			self.list4.append(getConfigListEntry(_("Sunrise"), LCD4linux.StandbySun))
-			if LCD4linux.StandbySun.value != "0":
-				self.list4.append(getConfigListEntry(_("- which LCD"), LCD4linux.StandbySunLCD))
-				self.list4.append(getConfigListEntry(_("- Font Size"), LCD4linux.StandbySunSize))
-				self.list4.append(getConfigListEntry(_("- Position"), LCD4linux.StandbySunPos))
-				self.list4.append(getConfigListEntry(_("- Alignment"), LCD4linux.StandbySunAlign))
-				self.list4.append(getConfigListEntry(_("- Split Screen"), LCD4linux.StandbySunSplit))
-				self.list4.append(getConfigListEntry(_("- Color"), LCD4linux.StandbySunColor))
-				self.list4.append(getConfigListEntry(_("- Background Color"), LCD4linux.StandbySunBackColor))
-				self.list4.append(getConfigListEntry(_("- Type"), LCD4linux.StandbySunType))
-				self.list4.append(getConfigListEntry(_("- Shadow Edges"), LCD4linux.StandbySunShadow))
-				self.list4.append(getConfigListEntry(_("- Font"), LCD4linux.StandbySunFont))
+			self.list4.append(getConfigListEntry(_("Sunrise/Sunset"), LCD4linux.StandbysunRS))
+			if LCD4linux.StandbysunRS.value != "0":
+				self.list4.append(getConfigListEntry(_("- which LCD"), LCD4linux.StandbysunRSLCD))
+				self.list4.append(getConfigListEntry(_("- Font Size"), LCD4linux.StandbysunRSSize))
+				self.list4.append(getConfigListEntry(_("- Position"), LCD4linux.StandbysunRSPos))
+				self.list4.append(getConfigListEntry(_("- Alignment"), LCD4linux.StandbysunRSAlign))
+				self.list4.append(getConfigListEntry(_("- Split Screen"), LCD4linux.StandbysunRSSplit))
+				self.list4.append(getConfigListEntry(_("- Color"), LCD4linux.StandbysunRSColor))
+				self.list4.append(getConfigListEntry(_("- Background Color"), LCD4linux.StandbysunRSBackColor))
+				self.list4.append(getConfigListEntry(_("- Type"), LCD4linux.StandbysunRSType))
+				self.list4.append(getConfigListEntry(_("- Shadow Edges"), LCD4linux.StandbysunRSShadow))
+				self.list4.append(getConfigListEntry(_("- Font"), LCD4linux.StandbysunRSFont))
+			self.list4.append(getConfigListEntry(_("Moonrise/Moonset"), LCD4linux.StandbyMoonRS))
+			if LCD4linux.StandbyMoonRS.value != "0":
+				self.list4.append(getConfigListEntry(_("- which LCD"), LCD4linux.StandbyMoonRSLCD))
+				self.list4.append(getConfigListEntry(_("- Font Size"), LCD4linux.StandbyMoonRSSize))
+				self.list4.append(getConfigListEntry(_("- Position"), LCD4linux.StandbyMoonRSPos))
+				self.list4.append(getConfigListEntry(_("- Alignment"), LCD4linux.StandbyMoonRSAlign))
+				self.list4.append(getConfigListEntry(_("- Split Screen"), LCD4linux.StandbyMoonRSSplit))
+				self.list4.append(getConfigListEntry(_("- Color"), LCD4linux.StandbyMoonRSColor))
+				self.list4.append(getConfigListEntry(_("- Background Color"), LCD4linux.StandbyMoonRSBackColor))
+				self.list4.append(getConfigListEntry(_("- Type"), LCD4linux.StandbyMoonRSType))
+				self.list4.append(getConfigListEntry(_("- Shadow Edges"), LCD4linux.StandbyMoonRSShadow))
+				self.list4.append(getConfigListEntry(_("- Font"), LCD4linux.StandbyMoonRSFont))
+			self.list4.append(getConfigListEntry(_("Moonphase"), LCD4linux.StandbyMoonPH))
+			if LCD4linux.StandbyMoonPH.value != "0":
+				self.list4.append(getConfigListEntry(_("- which LCD"), LCD4linux.StandbyMoonPHLCD))
+				self.list4.append(getConfigListEntry(_("- Size"), LCD4linux.StandbyMoonPHSize))
+				self.list4.append(getConfigListEntry(_("- Font Size"), LCD4linux.StandbyMoonPHFontSize))
+				self.list4.append(getConfigListEntry(_("- Position"), LCD4linux.StandbyMoonPHPos))
+				self.list4.append(getConfigListEntry(_("- Alignment"), LCD4linux.StandbyMoonPHAlign))
+				self.list4.append(getConfigListEntry(_("- Infolines"), LCD4linux.StandbyMoonPHInfos))
+				self.list4.append(getConfigListEntry(_("- Trendarrows"), LCD4linux.StandbyMoonPHTrends))
+				self.list4.append(getConfigListEntry(_("- Split Screen"), LCD4linux.StandbyMoonPHSplit))
+				self.list4.append(getConfigListEntry(_("- Color"), LCD4linux.StandbyMoonPHColor))
+				self.list4.append(getConfigListEntry(_("- Shadow Edges"), LCD4linux.StandbyMoonPHShadow))
+				self.list4.append(getConfigListEntry(_("- Font"), LCD4linux.StandbyMoonPHFont))
 			self.list4.append(getConfigListEntry(_("Show oscam.lcd"), LCD4linux.StandbyOSCAM))
 			if LCD4linux.StandbyOSCAM.value != "0":
 				self.list4.append(getConfigListEntry(_("- which LCD"), LCD4linux.StandbyOSCAMLCD))
@@ -9968,10 +10042,7 @@ class UpdateStatus(Screen):
 						up = f"{username}:{password}".encode()
 						basicAuth = b64encode(up).decode()
 						Header = {"Authorization": f"Basic {basicAuth}"}
-					if wwwURL[1] == 0:
-						feedurl = f"https://{URL}/web/subservices"
-					else:
-						feedurl = f"https://{URL}/web/getcurrent"
+					feedurl = f"https://{URL}/web/{"subservices" if wwwURL[1] == 0 else "getcurrent"}"
 					callInThread(getPage, feedurl, boundFunction(self.downloadwwwBoxCallback, i), boundFunction(self.downloadwwwBoxError, i), headers=Header)
 					L4log(f"wwwBox {i}", URL)
 			except Exception:
@@ -10111,7 +10182,7 @@ class UpdateStatus(Screen):
 
 			if LCD4linux.WetterApi.value == "MSN":
 				if float(self.Long[wetter]) == 0 and float(self.Lat[wetter]) == 0:
-					params = [("language", la[:2]), ("name", ort), ("count", "10")]
+					params = {"language": la[:2], "name": ort, "count": "10"}
 					feedurl = "https://geocoding-api.open-meteo.com/v1/search"
 					L4logE(f"MSN-citysearch{wetter}: {feedurl}")
 					callInThread(boundFunction(getPage, feedurl, params=params), boundFunction(self.getCityCoords, wetter), self.downloadListError)
@@ -10126,40 +10197,40 @@ class UpdateStatus(Screen):
 					callInThread(getPage, bytes.fromhex(params[:-1]).decode() % (self.Long[wetter], self.Lat[wetter], la, "C"), boundFunction(self.downloadMSNcallback, wetter), self.downloadListError)
 			elif LCD4linux.WetterApi.value == "OPENMETEO":
 				if float(self.Long[wetter]) == 0 and float(self.Lat[wetter]) == 0:
-					params = [("language", la[:2]), ("name", ort), ("count", "10")]
+					params = {"language": la[:2], "name": ort, "count": "10"}
 					feedurl = "https://geocoding-api.open-meteo.com/v1/search"
 					L4logE(f"OM-citysearch{wetter}: {feedurl}")
 					callInThread(boundFunction(getPage, feedurl, params=params), boundFunction(self.getCityCoords, wetter), self.downloadListError)
 				else:
-					params = [
-						("timezone", "auto"),
-						("latitude", self.Long[wetter]),
-						("longitude", self.Lat[wetter]),
-						("daily", "sunrise,sunset,weathercode,precipitation_probability_max,temperature_2m_max,temperature_2m_min"),
-						("hourly", "temperature_2m,relativehumidity_2m,apparent_temperature,weathercode,windspeed_10m,winddirection_10m,precipitation_probability"),
-						("windspeed_unit", "kmh"),
-						("temperature_unit", "celsius"),
-					]
+					params = {
+						"timezone": "auto",
+						"latitude": self.Long[wetter],
+						"longitude": self.Lat[wetter],
+						"daily": "sunrise,sunset,weathercode,precipitation_probability_max,temperature_2m_max,temperature_2m_min",
+						"hourly": "temperature_2m,relativehumidity_2m,apparent_temperature,weathercode,windspeed_10m,winddirection_10m,precipitation_probability",
+						"windspeed_unit": "kmh",
+						"temperature_unit": "celsius"
+					}
 					feedurl = "https://api.open-meteo.com/v1/forecast"
 					L4logE(f"OM-getweather{wetter}: {feedurl}")
 					callInThread(boundFunction(getPage, feedurl, params=params), boundFunction(self.downloadOMcallback, wetter), self.downloadListError)
 
 			elif LCD4linux.WetterApi.value == "OPENWEATHER":
 				if float(self.Long[wetter]) == 0 and float(self.Lat[wetter]) == 0:
-					params = [("language", la[:2]), ("name", ort), ("count", "10")]
+					params = {"language": la[:2], "name": ort, "count": "10"}
 					feedurl = "https://geocoding-api.open-meteo.com/v1/search"
 					L4logE(f"OWM-citysearch{wetter}: {feedurl}")
 					callInThread(boundFunction(getPage, feedurl, params=params), boundFunction(self.getCityCoords, wetter), self.downloadListError)
 				else:
 					apkey = LCD4linux.WetterApiKeyOpenWeatherMap.value if len(LCD4linux.WetterApiKeyOpenWeatherMap.value) > 5 else ""
-					params = [
-						("lat", self.Lat[wetter]),
-						("lon", self.Long[wetter]),
-						("lang", la[:2]),
-						("appid", apkey),
-						("units", "metric"),
-						("exclude", "hourly,minutely,current")
-					]
+					params = {
+						"lat": self.Lat[wetter],
+						"lon": self.Long[wetter],
+						"lang": la[:2],
+						"appid": apkey,
+						"units": "metric",
+						"exclude": "hourly,minutely,current"
+					}
 					feedurl = "https://api.openweathermap.org/data/2.5/weather"
 					L4logE(f"OWM-getcurrentweather{wetter}: {feedurl}")
 					callInThread(boundFunction(getPage, feedurl, params=params), boundFunction(self.downloadOWMcallback, wetter), self.downloadListError)
@@ -10271,7 +10342,7 @@ class UpdateStatus(Screen):
 				Regen = "{:.0f}".format(forecast[idx].get("daily", {}).get("day", {}).get("precip", 0))
 				self.WWeek[ConfigWWW].append({"High": High, "Low": Low, "Day": Day, "Icon": Icon, "Cond": Cond, "Regen": Regen})
 			L4log(f"MSN-weather{ConfigWWW}: completed!")
-			self.downloadSunrise()
+			self.downloadSunMoonRiseSet()
 			PICwetter[ConfigWWW] = None
 		else:
 			L4log(f"MSN-weather{ConfigWWW} download Error: no data found.")
@@ -10330,7 +10401,7 @@ class UpdateStatus(Screen):
 				Regen = "{:.0f}".format(forecast.get("precipitation_probability_max", zerolist)[idx])
 				self.WWeek[ConfigWWW].append({"High": High, "Low": Low, "Day": Day, "Icon": Icon, "Cond": Cond, "Regen": Regen})
 			L4log(f"OM-weather{ConfigWWW}: completed!")
-			self.downloadSunrise()
+			self.downloadSunMoonRiseSet()
 			PICwetter[ConfigWWW] = None
 		else:
 			L4log(f"OM-weather{ConfigWWW} download Error: no data found.")
@@ -10409,110 +10480,47 @@ class UpdateStatus(Screen):
 					break
 			PICwetter[ConfigWWW] = None
 			L4log(f"OWM-weather{ConfigWWW}: completed!")
-			self.downloadSunrise()
+			self.downloadSunMoonRiseSet()
 		else:
 			L4log(f"OWM-weather{ConfigWWW} download Error: no data found.")
 
-	def downloadSunrise(self):
-		L4log("Sunrise...")
-		if len(LCD4linux.WetterApiKeyOpenWeatherMap.value) > 599:
-			params = [
-				("lat", self.Lat[0]),
-				("lon", self.Long[0]),
-				("lang", language.getLanguage().replace("_", "-").lower()[:2]),
-				("appid", LCD4linux.WetterApiKeyOpenWeatherMap.value),
-				("mode", "xml"),
-				("cnt", 1)
-			]
-			feedurl = "https://api.openweathermap.org/data/2.5/weather"
-			L4log("Sunrise downloadstart:", feedurl)
-			callInThread(boundFunction(getPage, feedurl, params=params), self.downloadSunriseCallback, self.downloadSunriseError)
-		else:
-			params = [("lat", self.Lat[0]), ("lng", self.Long[0]), ("formatted", 0)]
-			feedurl = "https://api.sunrise-sunset.org/json"
-			L4log("Sunrise2 downloadstart:", feedurl)
-			callInThread(boundFunction(getPage, feedurl, params=params), self.downloadSunriseCallback2, self.downloadSunriseError)
+	def downloadSunMoonRiseSet(self):
+		L4log("SunMoonRiseSet...")
+		params = {"lat": self.Lat[0], "lng": self.Long[0]}
+		feedurl = "https://api.sunrise-sunset.org/v2"
+		L4log("SunMoonRiseSet downloadstart:", feedurl)
+		callInThread(boundFunction(getPage, feedurl, params=params), self.downloadSunMoonRiseSetCallback, self.downloadSunMoonRiseSetError)
 
-	def downloadSunriseError(self, error=""):
+	def downloadSunMoonRiseSetError(self, error=""):
 		if error == "":
-			L4log("Sunrise download Error ?")
+			L4log("SunMoonRiseSet download Error ?")
 		else:
-			L4log("Sunrise download Error", str(error))
+			L4log("SunMoonRiseSet download Error", str(error))
 
-	def downloadSunriseCallback(self, page=""):
-		global L4LSun
-		global L4LMoon
-		L4log("Sunrise download ok")
+	def downloadSunMoonRiseSetCallback(self, page=""):
+		global L4LSunrise
+		global L4LSunset
+		global L4LMoonrise
+		global L4LMoonset
+		L4log("SunMoonRiseSet download ok")
 		try:
-			dom = parseString(page)
-			DIFF = getTimeDiffUTC()
-			s = dom.getElementsByTagName("sun")
-			if len(s) > 0:
-				Rise = s[0].getAttribute("rise").split("T")
-				if len(Rise) == 2:
-					h = int(int(Rise[1].split(":")[0]) + DIFF)
-					if h > 23:
-						h -= 24
-					elif h < 0:
-						h += 24
-					m = int(Rise[1].split(":")[1])
-					if int(Rise[1].split(":")[2]) >= 30 and m < 59:
-						m += 1
-					if h in range(24) and m in range(60):
-						L4LSun = (h, m)
-				Rise = s[0].getAttribute("set").split("T")
-				if len(Rise) == 2:
-					h = int(int(Rise[1].split(":")[0]) + DIFF)
-					if h > 23:
-						h -= 24
-					elif h < 0:
-						h += 24
-					m = int(Rise[1].split(":")[1])
-					if int(Rise[1].split(":")[2]) >= 30 and m < 59:
-						m += 1
-					if h in range(24) and m in range(60):
-						L4LMoon = (h, m)
+			json = loads(page)
+			if sunrise_str := json.get("sunrise"):
+				sunrise_dt = datetime.fromisoformat(sunrise_str)
+				L4LSunrise = (sunrise_dt.hour, sunrise_dt.minute)
+			if sunset_str := json.get("sunset"):
+				sunrise_dt = datetime.fromisoformat(sunset_str)
+				L4LSunset = (sunrise_dt.hour, sunrise_dt.minute)
+			if moonrise_str := json.get("moonrise"):
+				moonrise_dt = datetime.fromisoformat(moonrise_str)
+				L4LMoonrise = (moonrise_dt.hour, moonrise_dt.minute)
+			if moonset_str := json.get("moonset"):
+				moonset_dt = datetime.fromisoformat(moonset_str)
+				L4LMoonset = (moonset_dt.hour, moonset_dt.minute)
 		except Exception:
-			L4log("Error Sunrise processing")
+			L4log("Error SunMoonRiseSet processing")
 			L4log("Error:", format_exc())
-		L4log(L4LSun, f"{L4LMoon}")
-
-	def downloadSunriseCallback2(self, page=""):
-		global L4LSun
-		global L4LMoon
-		L4log("Sunrise2 download ok")
-		try:
-			DIFF = getTimeDiffUTC()
-			s = loads(page)
-			if len(s) > 0:
-				Rise = s.get("results", {}).get("sunrise", "T06:00:00").split("T")[1].split("+")[0]
-				if len(Rise) == 8:
-					h = int(int(Rise.split(":")[0]) + DIFF)
-					if h > 23:
-						h -= 24
-					elif h < 0:
-						h += 24
-					m = int(Rise.split(":")[1])
-					if int(Rise.split(":")[2]) >= 30 and m < 59:
-						m += 1
-					if h in range(24) and m in range(60):
-						L4LSun = (h, m)
-				Rise = s.get("results", {}).get("sunset", "T19:00:00").split("T")[1].split("+")[0]
-				if len(Rise) == 8:
-					h = int(int(Rise.split(":")[0]) + DIFF)
-					if h > 23:
-						h -= 24
-					elif h < 0:
-						h += 24
-					m = int(Rise.split(":")[1])
-					if int(Rise.split(":")[2]) >= 30 and m < 59:
-						m += 1
-					if h in range(24) and m in range(60):
-						L4LMoon = (h, m)
-		except Exception:
-			L4log("Error Sunrise2 processing")
-			L4log("Error:", format_exc())
-		L4log(f"{L4LSun} {L4LMoon}")
+		L4log(f"Sunrise: {L4LSunrise}, Sunset: {L4LSunset}, Moonrise: {L4LMoonrise}, Moonset: {L4LMoonset}")
 
 	def coverDownloadFailed(self, result):
 		self.LgetGoogleCover = None
@@ -11733,8 +11741,8 @@ def LCD4linuxPIC(self, session):
 			POSX = getSplit(ConfigSplit, ConfigAlign, MAX_W, x)
 			self.im[im].paste(imW, (POSX, ConfigPos))
 
-# Mondphase
-	def putMoon(workaround, draw, im):
+# show Mondphase
+	def putMoonPH(workaround, draw, im):
 		(ConfigPos, ConfigSize, ConfigFontSize, ConfigAlign, ConfigInfo, ConfigTrends, ConfigSplit, ConfigColor, ConfigShadow, ConfigFont) = workaround
 		ConfigPos = int(ConfigPos)
 		ConfigSize = int(ConfigSize)
@@ -14152,17 +14160,18 @@ def LCD4linuxPIC(self, session):
 			MAX_W = int(MAX_W / 2)
 		POSY = ConfigPos
 		font = ImageFont.truetype(ConfigFont, ConfigSize)
-		sun_text = f"{L4LSun[0]:02d}:{L4LSun[1]:02d}"
-		w, h = getFsize(sun_text, font)
+		sunrise_text = f"{L4LSunrise[0]:02d}:{L4LSunrise[1]:02d}"
+		w, h = getFsize(sunrise_text, font)
 		ww = ConfigSize + w + int(ConfigSize / 6)
 		if ConfigType == "0":
 			ww *= 2
 			ww += int(ConfigSize / 3)
 		POSX = getSplit(ConfigSplit, ConfigAlign, MAX_W, ww)
 		POSXi = POSX + ConfigSize + int(ConfigSize / 6)
-		if isfile(join(LCD4data, "sun.png")):
+		sunrise_img = join(LCD4data, "sunrise.png")
+		if isfile(sunrise_img):
 			try:
-				imW = Image.open(join(LCD4data, "sun.png"))
+				imW = Image.open(sunrise_img)
 				imW = imW.resize((ConfigSize, ConfigSize))
 				if LCD4linux.WetterTransparenz.value == "true":
 					imW = imW.convert("RGBA")
@@ -14172,17 +14181,18 @@ def LCD4linuxPIC(self, session):
 			except Exception:
 				pass
 			if ConfigBackColor != "0":
-				w, h = getFsize(sun_text, font)
+				w, h = getFsize(sunrise_text, font)
 				self.draw[draw].rectangle((POSXi, POSY, POSXi + w, POSY + h), fill=ConfigBackColor)
-			ShadowText(draw, POSXi, POSY, sun_text, font, ConfigColor, ConfigShadow)
+			ShadowText(draw, POSXi, POSY, sunrise_text, font, ConfigColor, ConfigShadow)
 		if ConfigType == "2":
 			POSY += ConfigSize
 		else:
 			POSX += ConfigSize + w + int(ConfigSize / 3) + int(ConfigSize / 6)
 			POSXi = POSX + ConfigSize + int(ConfigSize / 6)
-		if isfile(join(LCD4data, "moon.png")):
+		sunset_img = join(LCD4data, "sunset.png")
+		if isfile(sunset_img):
 			try:
-				imW = Image.open(join(LCD4data, "moon.png"))
+				imW = Image.open(sunset_img)
 				imW = imW.resize((ConfigSize, ConfigSize))
 				if LCD4linux.WetterTransparenz.value == "true":
 					imW = imW.convert("RGBA")
@@ -14191,11 +14201,68 @@ def LCD4linuxPIC(self, session):
 					self.im[im].paste(imW, (POSX, POSY))
 			except Exception:
 				pass
-			moon_text = f"{L4LMoon[0]:02d}:{L4LMoon[1]:02d}"
+			sunset_text = f"{L4LSunset[0]:02d}:{L4LSunset[1]:02d}"
 			if ConfigBackColor != "0":
-				w, h = getFsize(moon_text, font)
+				w, h = getFsize(sunset_text, font)
 				self.draw[draw].rectangle((POSXi, POSY, POSXi + w, POSY + h), fill=ConfigBackColor)
-			ShadowText(draw, POSXi, POSY, moon_text, font, ConfigColor, ConfigShadow)
+			ShadowText(draw, POSXi, POSY, sunset_text, font, ConfigColor, ConfigShadow)
+
+# show Mondauf- / untergang
+	def putMoonRS(workaround, draw, im):
+		(ConfigPos, ConfigSize, ConfigColor, ConfigBackColor, ConfigAlign, ConfigSplit, ConfigType, ConfigShadow, ConfigFont) = workaround
+		ConfigPos = int(ConfigPos)
+		ConfigSize = int(ConfigSize)
+		MAX_W, MAX_H = self.im[im].size
+		if ConfigSplit is True:
+			MAX_W = int(MAX_W / 2)
+		POSY = ConfigPos
+		font = ImageFont.truetype(ConfigFont, ConfigSize)
+		moonrise_text = f"{L4LMoonrise[0]:02d}:{L4LMoonrise[1]:02d}"
+		w, h = getFsize(moonrise_text, font)
+		ww = ConfigSize + w + int(ConfigSize / 6)
+		if ConfigType == "0":
+			ww *= 2
+			ww += int(ConfigSize / 3)
+		POSX = getSplit(ConfigSplit, ConfigAlign, MAX_W, ww)
+		POSXi = POSX + ConfigSize + int(ConfigSize / 6)
+		moonrise_img = join(LCD4data, "moonrise.png")
+		if isfile(moonrise_img):
+			try:
+				imW = Image.open(moonrise_img)
+				imW = imW.resize((ConfigSize, ConfigSize))
+				if LCD4linux.WetterTransparenz.value == "true":
+					imW = imW.convert("RGBA")
+					self.im[im].paste(imW, (POSX, POSY), imW)
+				else:
+					self.im[im].paste(imW, (POSX, POSY))
+			except Exception:
+				pass
+			if ConfigBackColor != "0":
+				w, h = getFsize(moonrise_text, font)
+				self.draw[draw].rectangle((POSXi, POSY, POSXi + w, POSY + h), fill=ConfigBackColor)
+			ShadowText(draw, POSXi, POSY, moonrise_text, font, ConfigColor, ConfigShadow)
+		if ConfigType == "2":
+			POSY += ConfigSize
+		else:
+			POSX += ConfigSize + w + int(ConfigSize / 3) + int(ConfigSize / 6)
+			POSXi = POSX + ConfigSize + int(ConfigSize / 6)
+		moonset_img = join(LCD4data, "moonset.png")
+		if isfile(moonset_img):
+			try:
+				imW = Image.open(moonset_img)
+				imW = imW.resize((ConfigSize, ConfigSize))
+				if LCD4linux.WetterTransparenz.value == "true":
+					imW = imW.convert("RGBA")
+					self.im[im].paste(imW, (POSX, POSY), imW)
+				else:
+					self.im[im].paste(imW, (POSX, POSY))
+			except Exception:
+				pass
+			moonset_text = f"{L4LMoonset[0]:02d}:{L4LMoonset[1]:02d}"
+			if ConfigBackColor != "0":
+				w, h = getFsize(moonset_text, font)
+				self.draw[draw].rectangle((POSXi, POSY, POSXi + w, POSY + h), fill=ConfigBackColor)
+			ShadowText(draw, POSXi, POSY, moonset_text, font, ConfigColor, ConfigShadow)
 
 # Netatmo
 	def putNetatmo(workaround, draw, im):
@@ -14970,7 +15037,7 @@ def LCD4linuxPIC(self, session):
 	try:
 		pil_image = None
 		if pil_open != "" and isfile(pil_open) and not (TVrunning and "1" in LCD4linux.TVLCD.value and ScreenActive[0] in LCD4linux.TV.value):
-			if isOffTime(L4LMoon, L4LSun, L4LMoon, L4LSun) and isfile(pil_open.replace(pil_open[-4:], f"_night{pil_open[-4:]}")):
+			if isOffTime(L4LSunset, L4LSunrise, L4LSunset, L4LSunrise) and isfile(pil_open.replace(pil_open[-4:], f"_night{pil_open[-4:]}")):
 				pil_open = pil_open.replace(pil_open[-4:], f"_night{pil_open[-4:]}")
 				L4logE("Nightbackground", pil_open)
 			if LCD4linux.BilderBackground.value == "0":
@@ -15028,7 +15095,7 @@ def LCD4linuxPIC(self, session):
 			pil_image = None
 			if pil_open != "" and isfile(pil_open) and not (TVrunning and "2" in LCD4linux.TVLCD.value and ScreenActive[0] in LCD4linux.TV.value):
 				night_pil_open = pil_open.replace(pil_open[-4:], f"_night{pil_open[-4:]}")
-				if isOffTime(L4LMoon, L4LSun, L4LMoon, L4LSun) and isfile(night_pil_open):
+				if isOffTime(L4LSunset, L4LSunrise, L4LSunset, L4LSunrise) and isfile(night_pil_open):
 					pil_open = night_pil_open
 					L4logE("Nightbackground", pil_open)
 				if LCD4linux.BilderBackground.value == "0":
@@ -15088,7 +15155,7 @@ def LCD4linuxPIC(self, session):
 		try:
 			pil_image = None
 			if pil_open != "" and isfile(pil_open) and not (TVrunning and "3" in LCD4linux.TVLCD.value and ScreenActive[0] in LCD4linux.TV.value):
-				if isOffTime(L4LMoon, L4LSun, L4LMoon, L4LSun) and isfile(pil_open.replace(pil_open[-4:], f"_night{pil_open[-4:]}")):
+				if isOffTime(L4LSunset, L4LSunrise, L4LSunset, L4LSunrise) and isfile(pil_open.replace(pil_open[-4:], f"_night{pil_open[-4:]}")):
 					pil_open = pil_open.replace(pil_open[-4:], f"_night{pil_open[-4:]}")
 					L4logE("Nightbackground", pil_open)
 				if LCD4linux.BilderBackground.value == "0":
@@ -15410,20 +15477,6 @@ def LCD4linuxPIC(self, session):
 					LCD4linux.StandbyBox2BackColor.value
 				)
 				Lput(LCD4linux.StandbyBox2LCD.value, LCD4linux.StandbyBox2.value, putBox, Para)
-# Moonphase
-				Para = (
-					LCD4linux.StandbyMoonPos.value,
-					LCD4linux.StandbyMoonSize.value,
-					LCD4linux.StandbyMoonFontSize.value,
-					LCD4linux.StandbyMoonAlign.value,
-					LCD4linux.StandbyMoonInfos.value,
-					LCD4linux.StandbyMoonTrends.value,
-					LCD4linux.StandbyMoonSplit.value,
-					LCD4linux.StandbyMoonColor.value,
-					LCD4linux.StandbyMoonShadow.value,
-					getFont(LCD4linux.StandbyMoonFont.value)
-				)
-				Lput(LCD4linux.StandbyMoonLCD.value, LCD4linux.StandbyMoon.value, putMoon, Para)
 # Meteo station
 				if wwwMeteo.find("current_conditions") > 1:
 					Para = (
@@ -15726,18 +15779,44 @@ def LCD4linuxPIC(self, session):
 				Lput(LCD4linux.StandbyIconBarLCD.value, LCD4linux.StandbyIconBar.value, putIconBar, Para)
 # show Sonnenaufgang
 				Para = (
-					LCD4linux.StandbySunPos.value,
-					LCD4linux.StandbySunSize.value,
-					LCD4linux.StandbySunColor.value,
-					LCD4linux.StandbySunBackColor.value,
-					LCD4linux.StandbySunAlign.value,
-					LCD4linux.StandbySunSplit.value,
-					LCD4linux.StandbySunType.value,
-					LCD4linux.StandbySunShadow.value,
-					getFont(LCD4linux.StandbySunFont.value)
+					LCD4linux.StandbysunRSPos.value,
+					LCD4linux.StandbysunRSSize.value,
+					LCD4linux.StandbysunRSColor.value,
+					LCD4linux.StandbysunRSBackColor.value,
+					LCD4linux.StandbysunRSAlign.value,
+					LCD4linux.StandbysunRSSplit.value,
+					LCD4linux.StandbysunRSType.value,
+					LCD4linux.StandbysunRSShadow.value,
+					getFont(LCD4linux.StandbysunRSFont.value)
 				)
-				Lput(LCD4linux.StandbySunLCD.value, LCD4linux.StandbySun.value, putSun, Para)
-
+				Lput(LCD4linux.StandbysunRSLCD.value, LCD4linux.StandbysunRS.value, putSun, Para)
+# show Mondauf- / untergang
+				Para = (
+					LCD4linux.StandbyMoonRSPos.value,
+					LCD4linux.StandbyMoonRSSize.value,
+					LCD4linux.StandbyMoonRSColor.value,
+					LCD4linux.StandbyMoonRSBackColor.value,
+					LCD4linux.StandbyMoonRSAlign.value,
+					LCD4linux.StandbyMoonRSSplit.value,
+					LCD4linux.StandbyMoonRSType.value,
+					LCD4linux.StandbyMoonRSShadow.value,
+					getFont(LCD4linux.StandbyMoonRSFont.value),
+				)
+				Lput(LCD4linux.StandbyMoonRSLCD.value, LCD4linux.StandbyMoonRS.value, putMoonRS, Para)
+# show Mondphase
+				Para = (
+					LCD4linux.StandbyMoonPHPos.value,
+					LCD4linux.StandbyMoonPHSize.value,
+					LCD4linux.StandbyMoonPHFontSize.value,
+					LCD4linux.StandbyMoonPHAlign.value,
+					LCD4linux.StandbyMoonPHInfos.value,
+					LCD4linux.StandbyMoonPHTrends.value,
+					LCD4linux.StandbyMoonPHSplit.value,
+					LCD4linux.StandbyMoonPHColor.value,
+					LCD4linux.StandbyMoonPHShadow.value,
+					getFont(LCD4linux.StandbyMoonPHFont.value)
+				)
+				Lput(LCD4linux.StandbyMoonPHLCD.value, LCD4linux.StandbyMoonPH.value, putMoonPH, Para)
 # externe Elementeliste
 				putL4LElist("Idle")
 
@@ -16227,20 +16306,6 @@ def LCD4linuxPIC(self, session):
 				getFont(LCD4linux.MPBitrateFont.value)
 			)
 			Lput(LCD4linux.MPBitrateLCD.value, LCD4linux.MPBitrate.value, putBitrate, Para)
-# Moonphase
-			Para = (
-				LCD4linux.MPMoonPos.value,
-				LCD4linux.MPMoonSize.value,
-				LCD4linux.MPMoonFontSize.value,
-				LCD4linux.MPMoonAlign.value,
-				LCD4linux.MPMoonInfos.value,
-				LCD4linux.MPMoonTrends.value,
-				LCD4linux.MPMoonSplit.value,
-				LCD4linux.MPMoonColor.value,
-				LCD4linux.MPMoonShadow.value,
-				getFont(LCD4linux.MPMoonFont.value),
-			)
-			Lput(LCD4linux.MPMoonLCD.value, LCD4linux.MPMoon.value, putMoon, Para)
 # Online-Ping
 			Para = (
 				LCD4linux.MPPingPos.value,
@@ -16435,21 +16500,46 @@ def LCD4linuxPIC(self, session):
 			Lput(LCD4linux.MPIconBarLCD.value, LCD4linux.MPIconBar.value, putIconBar, Para)
 # show Sonnenaufgang
 			Para = (
-				LCD4linux.MPSunPos.value,
-				LCD4linux.MPSunSize.value,
-				LCD4linux.MPSunColor.value,
-				LCD4linux.MPSunBackColor.value,
-				LCD4linux.MPSunAlign.value,
-				LCD4linux.MPSunSplit.value,
-				LCD4linux.MPSunType.value,
-				LCD4linux.MPSunShadow.value,
-				getFont(LCD4linux.MPSunFont.value),
+				LCD4linux.MPsunRSPos.value,
+				LCD4linux.MPsunRSSize.value,
+				LCD4linux.MPsunRSColor.value,
+				LCD4linux.MPsunRSBackColor.value,
+				LCD4linux.MPsunRSAlign.value,
+				LCD4linux.MPsunRSSplit.value,
+				LCD4linux.MPsunRSType.value,
+				LCD4linux.MPsunRSShadow.value,
+				getFont(LCD4linux.MPsunRSFont.value),
 			)
-			Lput(LCD4linux.MPSunLCD.value, LCD4linux.MPSun.value, putSun, Para)
-
+			Lput(LCD4linux.MPsunRSLCD.value, LCD4linux.MPsunRS.value, putSun, Para)
+# show Mondauf- / untergang
+			Para = (
+				LCD4linux.MPMoonRSPos.value,
+				LCD4linux.MPMoonRSSize.value,
+				LCD4linux.MPMoonRSColor.value,
+				LCD4linux.MPMoonRSBackColor.value,
+				LCD4linux.MPMoonRSAlign.value,
+				LCD4linux.MPMoonRSSplit.value,
+				LCD4linux.MPMoonRSType.value,
+				LCD4linux.MPMoonRSShadow.value,
+				getFont(LCD4linux.MPMoonRSFont.value),
+			)
+			Lput(LCD4linux.MPMoonRSLCD.value, LCD4linux.MPMoonRS.value, putMoonRS, Para)
+# show Mondphase
+			Para = (
+				LCD4linux.MPMoonPHPos.value,
+				LCD4linux.MPMoonPHSize.value,
+				LCD4linux.MPMoonPHFontSize.value,
+				LCD4linux.MPMoonPHAlign.value,
+				LCD4linux.MPMoonPHInfos.value,
+				LCD4linux.MPMoonPHTrends.value,
+				LCD4linux.MPMoonPHSplit.value,
+				LCD4linux.MPMoonPHColor.value,
+				LCD4linux.MPMoonPHShadow.value,
+				getFont(LCD4linux.MPMoonPHFont.value),
+			)
+			Lput(LCD4linux.MPMoonPHLCD.value, LCD4linux.MPMoonPH.value, putMoonPH, Para)
 # externe Elementeliste
 			putL4LElist("Media")
-
 # FritzCall
 			Para = (
 				LCD4linux.MPFritzPos.value,
@@ -16742,20 +16832,6 @@ def LCD4linuxPIC(self, session):
 # Box 2
 			Para = LCD4linux.Box2x1.value, LCD4linux.Box2y1.value, LCD4linux.Box2x2.value, LCD4linux.Box2y2.value, LCD4linux.Box2Color.value, LCD4linux.Box2BackColor.value
 			Lput(LCD4linux.Box2LCD.value, LCD4linux.Box2.value, putBox, Para)
-# Moonphase
-			Para = (
-				LCD4linux.MoonPos.value,
-				LCD4linux.MoonSize.value,
-				LCD4linux.MoonFontSize.value,
-				LCD4linux.MoonAlign.value,
-				LCD4linux.MoonInfos.value,
-				LCD4linux.MoonTrends.value,
-				LCD4linux.MoonSplit.value,
-				LCD4linux.MoonColor.value,
-				LCD4linux.MoonShadow.value,
-				getFont(LCD4linux.MoonFont.value)
-			)
-			Lput(LCD4linux.MoonLCD.value, LCD4linux.Moon.value, putMoon, Para)
 # Netatmo
 			Para = (
 				LCD4linux.NetAtmoPos.value,
@@ -17265,23 +17341,48 @@ def LCD4linuxPIC(self, session):
 				LCD4linux.IconBarPopupLCD.value
 			)
 			Lput(LCD4linux.IconBarLCD.value, LCD4linux.IconBar.value, putIconBar, Para)
-# show Sonnenaufgang
+# show Sonnenauf- / untergang
 			Para = (
-				LCD4linux.SunPos.value,
-				LCD4linux.SunSize.value,
-				LCD4linux.SunColor.value,
-				LCD4linux.SunBackColor.value,
-				LCD4linux.SunAlign.value,
-				LCD4linux.SunSplit.value,
-				LCD4linux.SunType.value,
-				LCD4linux.SunShadow.value,
-				getFont(LCD4linux.SunFont.value),
+				LCD4linux.sunRSPos.value,
+				LCD4linux.sunRSSize.value,
+				LCD4linux.sunRSColor.value,
+				LCD4linux.sunRSBackColor.value,
+				LCD4linux.sunRSAlign.value,
+				LCD4linux.sunRSSplit.value,
+				LCD4linux.sunRSType.value,
+				LCD4linux.sunRSShadow.value,
+				getFont(LCD4linux.sunRSFont.value),
 			)
-			Lput(LCD4linux.SunLCD.value, LCD4linux.Sun.value, putSun, Para)
-
+			Lput(LCD4linux.sunRSLCD.value, LCD4linux.sunRS.value, putSun, Para)
+# show Mondauf- / untergang
+			Para = (
+				LCD4linux.MoonRSPos.value,
+				LCD4linux.MoonRSSize.value,
+				LCD4linux.MoonRSColor.value,
+				LCD4linux.MoonRSBackColor.value,
+				LCD4linux.MoonRSAlign.value,
+				LCD4linux.MoonRSSplit.value,
+				LCD4linux.MoonRSType.value,
+				LCD4linux.MoonRSShadow.value,
+				getFont(LCD4linux.MoonRSFont.value),
+			)
+			Lput(LCD4linux.MoonRSLCD.value, LCD4linux.MoonRS.value, putMoonRS, Para)
+# show Mondphase
+			Para = (
+				LCD4linux.MoonPHPos.value,
+				LCD4linux.MoonPHSize.value,
+				LCD4linux.MoonPHFontSize.value,
+				LCD4linux.MoonPHAlign.value,
+				LCD4linux.MoonPHInfos.value,
+				LCD4linux.MoonPHTrends.value,
+				LCD4linux.MoonPHSplit.value,
+				LCD4linux.MoonPHColor.value,
+				LCD4linux.MoonPHShadow.value,
+				getFont(LCD4linux.MoonPHFont.value)
+			)
+			Lput(LCD4linux.MoonPHLCD.value, LCD4linux.MoonPH.value, putMoonPH, Para)
 # externe Elementeliste
 			putL4LElist("On")
-
 # FritzCall
 			Para = (
 				LCD4linux.FritzPos.value,
