@@ -9703,8 +9703,8 @@ class UpdateStatus(Screen):
 				if epgcache is not None:
 					self.LEventsNext = epgcache.lookupEvent(['RIBDT', (_LsreftoString or self.LsreftoString, 0, -1, 1440)])
 					self.LEventsDesc = epgcache.lookupEvent(['IBDCTSERNX', (_LsreftoString or self.LsreftoString, 0, -1)])
-		elif GPjukeboxOK is True:
-			if cjukeboxevent.LastStatus != "":
+		else:
+			if GPjukeboxOK is True and cjukeboxevent.LastStatus != "":
 				self.LsreftoString = f"4097:0:0:0:0:0:0:0:0:0:{cjukeboxevent.CurrSource}"
 				self.Lchannel_name = cjukeboxevent.CurrSource
 				self.LsTagTitle = Code_utf8(cjukeboxevent.PlayTitle)
