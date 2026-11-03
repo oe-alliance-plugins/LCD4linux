@@ -45,6 +45,7 @@ from shutil import disk_usage
 from socket import setdefaulttimeout
 from socketserver import ThreadingMixIn
 from struct import unpack
+from sys import modules
 from textwrap import TextWrapper, wrap
 from threading import Thread
 from time import strftime, strptime, localtime, mktime, time, sleep, timezone, altzone, daylight
@@ -424,8 +425,8 @@ ProgressType = [
 now = localtime()
 begin = mktime((now.tm_year, now.tm_mon, now.tm_mday, 6, 00, 0, now.tm_wday, now.tm_yday, now.tm_isdst))
 AGENT = choice(
-    [
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+	[
+		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
 		"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
 		"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36",
 		"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.6 Safari/605.1.15",
@@ -2755,8 +2756,8 @@ def getTimeDiff():
 
 
 def getTimeDiffUTC():
-    offset = datetime.now().astimezone().utcoffset()
-    return round(offset.total_seconds() / 3600) if offset is not None else 0
+	offset = datetime.now().astimezone().utcoffset()
+	return round(offset.total_seconds() / 3600) if offset is not None else 0
 
 
 def getTimeDiffUTC2():
@@ -9704,7 +9705,27 @@ class UpdateStatus(Screen):
 					self.LEventsNext = epgcache.lookupEvent(['RIBDT', (_LsreftoString or self.LsreftoString, 0, -1, 1440)])
 					self.LEventsDesc = epgcache.lookupEvent(['IBDCTSERNX', (_LsreftoString or self.LsreftoString, 0, -1)])
 		else:
-			if GPjukeboxOK is True and cjukeboxevent.LastStatus != "":
+			mod = modules.get("Plugins.Extensions.IPTVPlayer.components.iptvextmovieplayer")
+			e2i = mod.IPTVExtMoviePlayer.playback if mod else {}
+			if e2i and e2i.get("Active"):
+				self.LsreftoString = "4097:0:0:0:0:0:0:0:0:0:E2iPlayer"
+				self.Lpath = "E2iPlayer"
+				self.Lchannel_name = self.LsTagTitle = self.LgetName = e2i.get("Title", "")
+				length = e2i.get("Length", 0)
+				self.Llength = [-1, 7776000000] if e2i.get("LiveDetected") or not length else [0, length * 90000]
+				self.Lposition = [0, e2i.get("CurrentTime", 0) * 90000]
+				self.LE2iCover = e2i.get("CoverFile", "")
+				self.LsrefFile = ""
+				self.Lprovider = None
+				self.LtransponderData = None
+				self.LsTagAlbum = None
+				self.LsTagArtist = None
+				self.LsTagGenre = None
+				self.LsTagDate = None
+				self.LShortDescription = ""
+				self.LExtendedDescription = ""
+				self.LEventsDesc = None
+			elif GPjukeboxOK is True and cjukeboxevent.LastStatus != "":
 				self.LsreftoString = f"4097:0:0:0:0:0:0:0:0:0:{cjukeboxevent.CurrSource}"
 				self.Lchannel_name = cjukeboxevent.CurrSource
 				self.LsTagTitle = Code_utf8(cjukeboxevent.PlayTitle)
@@ -11081,6 +11102,8 @@ def LCD4linuxPIC(self, session):
 			cover = GoogleCover
 		elif self.YMCastRunning and self.YMCastInfo.get("albumart_url", "") != "" and (LCD4linux.YMCastCover.value == "0" or self.LsTagTitle == "MusicCast"):
 			cover = GoogleCover
+		elif self.Lpath == "E2iPlayer" and isfile(self.LE2iCover):
+			cover = self.LE2iCover
 		elif self.LsreftoString is not None and self.LgetName is not None:
 			Title = self.LgetName
 			if len(splitext(Title)[1]) == 4:
