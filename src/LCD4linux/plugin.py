@@ -10225,8 +10225,8 @@ class UpdateStatus(Screen):
 				else:
 					params = {
 						"timezone": "auto",
-						"latitude": self.Long[wetter],
-						"longitude": self.Lat[wetter],
+						"latitude": self.Lat[wetter],
+						"longitude": self.Long[wetter],
 						"daily": "sunrise,sunset,weathercode,precipitation_probability_max,temperature_2m_max,temperature_2m_min",
 						"hourly": "temperature_2m,relativehumidity_2m,apparent_temperature,weathercode,windspeed_10m,winddirection_10m,precipitation_probability",
 						"windspeed_unit": "kmh",
